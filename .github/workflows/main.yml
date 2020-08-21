@@ -28,6 +28,6 @@ jobs:
       with:
         source: '.'
         exclude: './third_party ./external'
-        extensions: 'h,cpp'
+        extensions: 'hpp,cpp'
         clangFormatVersion: 9
   
