@@ -15,6 +15,13 @@ js/reveal.min.js
 # Prerequisites
 *.d
 
+# emacs
+*~
+\#*\#
+.\#*
+.ccls-cache/
+.ccls
+
 # Builds, test, IDE
 build/
 .vscode/
