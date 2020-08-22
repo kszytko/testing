@@ -77,6 +77,6 @@ foreach(TEST_FILE ${TEST_FILES})
 
   add_executable (${TEST_NAME} ${TEST_FILE} ${SRC_FILES})
   target_link_libraries(${TEST_NAME} gtest_main ${SRC_LIB})
-  target_compile_options(${TEST_NAME} PRIVATE -Wall -Wextra -Werror -Wconversion -pedantic -O3)
+  #target_compile_options(${TEST_NAME} PRIVATE -Wall -Wextra -Werror -Wconversion -pedantic -O3)
   add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
 ENDFOREACH()
