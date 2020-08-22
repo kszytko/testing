@@ -51,20 +51,32 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 ##Insert project source files here.##
-set(SOURCES
-    ${SOURCE_DIR}/game.cpp
-)
+file(GLOB TEST_FILES ${TEST_DIR}/*.cpp)
+file(GLOB SOURCES ${SOURCE_DIR}/*.cpp)
 
-add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})
+#SRC LIB
+add_library(SRC_LIB STATIC ${SOURCES})
 
-add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp)
-add_executable(${PROJECT_NAME}-ut ${TEST_DIR}/bowling-ut.cpp)
+#MAIN
+add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries(${PROJECT_NAME} ${SRC_LIB})
+#target_compile_options(${PROJECT_NAME} PRIVATE -Wall -pedantic -O3)
 
-target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
-target_link_libraries(${PROJECT_NAME}-ut ${PROJECT_NAME}-lib gtest_main)
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wconversion -pedantic -O3)
-target_compile_options(${PROJECT_NAME}-ut PRIVATE -Wall -Wextra -Werror -Wconversion -pedantic -O3)
+# Tests
+message("Generate tests:")
 
 enable_testing()
-add_test(NAME BowlingTest COMMAND ${PROJECT_NAME}-ut)
+foreach(TEST_FILE ${TEST_FILES})
+  # Get name of file
+  get_filename_component(TEST_FILE_NAME ${TEST_FILE} NAME_WE)
+  # Create test name
+  set(TEST_NAME Test_${TEST_FILE_NAME})
+
+  message("${TEST_NAME} active")
+
+  add_executable (${TEST_NAME} ${TEST_FILE} ${SRC_FILES})
+  target_link_libraries(${TEST_NAME} gtest_main ${SRC_LIB})
+  target_compile_options(${TEST_NAME} PRIVATE -Wall -Wextra -Werror -Wconversion -pedantic -O3)
+  add_test(NAME ${TEST_NAME} COMMAND ${TEST_NAME})
+ENDFOREACH()
