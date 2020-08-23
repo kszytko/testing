@@ -54,6 +54,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(SOURCES
     ${SOURCE_DIR}/game.cpp
     ${SOURCE_DIR}/ArgumentParser.cpp
+    ${SOURCE_DIR}/frameParser.cpp
 )
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})
