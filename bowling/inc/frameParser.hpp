@@ -2,7 +2,6 @@
 #include <string>
 #include <vector>
 
-<<<<<<< HEAD
 using parsedFrame = std::pair<std::string, std::vector<size_t>>;
 
 class FrameParser {

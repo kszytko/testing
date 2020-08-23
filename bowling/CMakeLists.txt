@@ -57,6 +57,7 @@ set(SOURCES
     ${SOURCE_DIR}/ArgumentParser.cpp
     ${SOURCE_DIR}/frameParser.cpp
     ${SOURCE_DIR}/tokenizer.cpp
+    ${SOURCE_DIR}/frameParser.cpp
 )
 
 set(TESTS
