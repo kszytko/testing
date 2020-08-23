@@ -55,6 +55,7 @@ set(SOURCES
     ${SOURCE_DIR}/game.cpp
     ${SOURCE_DIR}/filesReader.cpp
     ${SOURCE_DIR}/ArgumentParser.cpp
+    ${SOURCE_DIR}/frameParser.cpp
 )
 
 set(TESTS
