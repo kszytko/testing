@@ -56,6 +56,7 @@ set(SOURCES
     ${SOURCE_DIR}/ArgumentParser.cpp
     ${SOURCE_DIR}/frameParser.cpp
     ${SOURCE_DIR}/tokenizer.cpp
+    ${SOURCE_DIR}/frameParser.cpp
 )
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})
