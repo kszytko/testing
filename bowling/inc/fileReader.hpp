@@ -1,26 +1,26 @@
 #pragma once
 
-#include <experimental/filesystem>
-#include <memory>
 #include <string>
+#include <filesystem>
 
-#include "lane.hpp"
 
-class FileReader {
+namespace fs = std::filesystem;
+
+class FileReader{
 public:
-    FileReader(const std::string& directory);
+    FileReader(fs::path file) : file_(file){
+        readLines();
+    };
 
-    bool isValid() const { return isValid_; }
-    size_t getLanesNum() const { return lanes_.size(); }
-    std::shared_ptr<Lane> getLane(size_t index);
+    std::vector<std::string> getLines() { return lines_; }
+    std::string getFileName() const;
 
 private:
-    std::experimental::filesystem::path directoryPath_;
-    bool isValid_;
-    std::vector<std::shared_ptr<Lane>> lanes_;
+    void readLines();
+    bool isLineValid(std::string line);
 
-    bool checkDirectory();
-    std::vector<std::experimental::filesystem::path> makeFileList();
-    void readFiles(const std::vector<std::experimental::filesystem::path>& files);
-    void readPlayers(const std::experimental::filesystem::path& file, Lane& lane);
+private:
+    fs::path file_;
+    std::vector<std::string> lines_;
 };
+

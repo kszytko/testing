@@ -2,18 +2,33 @@
 
 #include <string>
 #include <vector>
+#include <exception>
 
-class Lane {
-public:
-    Lane(const std::string& name) : name_(name) {}
+struct Lane{
+    Lane(std::string name_) : name_(name_){};
 
-    size_t getPlayersNum() const { return players_.size(); }
-    std::string getPlayer(size_t index) { return players_.at(index); }
-    std::string getName() const { return name_; }
+    struct Player{
+        std::string name;
+        std::string game;
 
-    void addPlayer(const std::string& player) { players_.push_back(player); }
+        Player(std::string name_, std::string game_) : name(name_), game(game_){};
+    };
+
+    std::string getName() const {return name_;};
+    std::vector<Player> getPlayers()  {return players_;};
+
+    void addPlayer(std::string & line);
+    void addPlayers(std::vector<std::string> lines);
+
+private:
+    std::string readPlayerName(std::string & line);
+    std::string readPlayerGame(std::string & line);
+    unsigned int getSeparatorPos(std::string & line);
 
 private:
     std::string name_;
-    std::vector<std::string> players_;
+    std::vector<Player> players_;
+
 };
+
+

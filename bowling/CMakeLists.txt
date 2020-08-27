@@ -52,12 +52,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 ##Insert project source files here.##
 set(SOURCES
-    ${SOURCE_DIR}/game.cpp
-    ${SOURCE_DIR}/fileReader.cpp
-)
+   #    ${SOURCE_DIR}/game.cpp
+        ${SOURCE_DIR}/fileReader.cpp
+        ${SOURCE_DIR}/FolderReader.cpp
+        ${SOURCE_DIR}//LaneReader.cpp src/lane.cpp)
 
 set(TESTS
-    ${TEST_DIR}/bowling-ut.cpp
+   # ${TEST_DIR}/bowling-ut.cpp
     ${TEST_DIR}/fileReader-ut.cpp
 )
 
@@ -67,10 +68,10 @@ add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp)
 add_executable(${PROJECT_NAME}-ut ${TESTS})
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
-target_link_libraries(${PROJECT_NAME}-ut ${PROJECT_NAME}-lib gtest_main stdc++fs)
+target_link_libraries(${PROJECT_NAME}-ut ${PROJECT_NAME}-lib gtest_main)
 
-target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wconversion -pedantic -O3)
-target_compile_options(${PROJECT_NAME}-ut PRIVATE -Wall -Wextra -Werror -Wconversion -pedantic -O3)
+#target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Werror -Wconversion -pedantic -O3)
+#target_compile_options(${PROJECT_NAME}-ut PRIVATE -Wall -Wextra -Werror -Wconversion -pedantic -O3)
 
 enable_testing()
 add_test(NAME BowlingTest COMMAND ${PROJECT_NAME}-ut)

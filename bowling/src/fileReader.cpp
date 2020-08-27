@@ -1,66 +1,20 @@
-#include <algorithm>
+#include "fileReader.hpp"
 #include <fstream>
 
-#include "fileReader.hpp"
-
-namespace fs = std::experimental::filesystem;
-
-FileReader::FileReader(const std::string& directory) : directoryPath_(fs::path(directory)), isValid_(false) {
-    
-    if (!checkDirectory()) {
-        return;
-    }
-
-    std::vector<fs::path> files = makeFileList();
-    readFiles(files);
-    isValid_ = true;
-};
-
-bool FileReader::checkDirectory()
-{
-    if (!fs::exists(directoryPath_)) {
-        return false;
-    }
-    if (!fs::is_directory(directoryPath_)) {
-        return false;
-    }
-    return true;
+std::string FileReader::getFileName() const {
+    return file_.stem().string();
 }
 
-std::vector<fs::path> FileReader::makeFileList() {
-    std::vector<fs::path> files;
+void FileReader::readLines() {
+    std::ifstream infile(file_);
+    std::string line;
 
-    for (const auto& entry : fs::directory_iterator(directoryPath_)) {
-        auto filename = entry.path().filename();
-        if (fs::is_regular_file(entry.status())) {
-            files.push_back(entry.path());
+    while (std::getline(infile, line)) {
+        if(isLineValid(line)) {
+            lines_.push_back(line);
         }
     }
-    files.shrink_to_fit();
-    std::sort(files.begin(), files.end());
-
-    return files;
 }
-
-std::shared_ptr<Lane> FileReader::getLane(size_t index) {
-    if (index < lanes_.size()) {
-        return lanes_[index];
-    }
-    return nullptr;
-}
-
-void FileReader::readFiles(const std::vector<fs::path>& files) {
-    for (const auto& file : files) {
-        Lane lane(file.stem());
-        readPlayers(file, lane);
-        lanes_.push_back(std::make_shared<Lane>(lane));
-    }
-}
-
-void FileReader::readPlayers(const fs::path& file, Lane& lane) {
-    std::ifstream infile(file);
-    std::string line;
-    while (std::getline(infile, line)) {
-        lane.addPlayer(line);
-    }
+bool FileReader::isLineValid(std::string line) {
+    return line.find(':') != std::string::npos;
 }

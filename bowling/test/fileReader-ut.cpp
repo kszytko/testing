@@ -1,48 +1,102 @@
 #include <gtest/gtest.h>
 #include <functional>
-#include "fileReader.hpp"
+#include "LaneReader.hpp"
+#include "folderReader.hpp"
 
 using TestDirectory = std::tuple<std::string, bool>;
 
-struct FileReaderTestFixture : public ::testing::TestWithParam<TestDirectory> 
-{};
+struct FolderReaderTest : public ::testing::Test
+{
+    std::string invalidDirectory = "t.e.s.t";
+    std::string notExistingDirectory = "notexistingdirectory";
+    std::string inputTestDirectory = "C:\\Users\\RWSwiss\\Documents\\workshop\\testing\\bowling\\test\\inputTestDirectory";
 
-TEST_P(FileReaderTestFixture, ShouldValidateInputDirectory) {
+
+    void validatePlayer(Lane::Player & player, std::string name, std::string game) {
+        EXPECT_EQ(player.name, name);
+        EXPECT_EQ(player.game, game);
+    }
+
+};
+
+TEST_F(FolderReaderTest, WhenDirectoryIsInvalid_ShouldThrowError) {
+    ASSERT_ANY_THROW(new FolderReader(invalidDirectory));
+}
+
+TEST_F(FolderReaderTest, WhenDirectoryNotExists_ShouldThrowError) {
+    ASSERT_ANY_THROW(new FolderReader(notExistingDirectory));
+}
+
+TEST_F(FolderReaderTest, WhenDirectoryExists_ShouldPass) {
+    ASSERT_NO_THROW(new FolderReader(inputTestDirectory));
+}
+
+
+TEST(LaneTest, shouldParseLine_whenGivenValidData){
+    Lane lane("lane1");
+
+    std::string input = "name:values";
+    lane.addPlayer(input);
+
+    EXPECT_FALSE(lane.getPlayers().empty());
+    auto player = lane.getPlayers().front();
+
+    EXPECT_EQ(player.name, "name");
+    EXPECT_EQ(player.game, "values");
+}
+
+TEST(LaneTest, shouldParseLine_whenNoNameOfPLayer){
+    Lane lane("lane1");
+
+    std::string input = ":values";
+    lane.addPlayer(input);
+
+    EXPECT_FALSE(lane.getPlayers().empty());
+    auto player = lane.getPlayers().front();
+
+    EXPECT_EQ(player.name, "");
+    EXPECT_EQ(player.game, "values");
+}
+
+TEST(LaneTest, shouldNotParseLine_whenNoFrames){
+    Lane lane("lane1");
+
+    std::string input = "name:";
+    lane.addPlayer(input);
+
+    EXPECT_TRUE(lane.getPlayers().empty());
+}
+
+
+TEST_F(FolderReaderTest, ShouldHaveValidName_IfValidFiles) {
     // GIVEN
-    auto [path, isValid] = GetParam();
+    FolderReader fr(inputTestDirectory);
+    LaneReader laneReader(&fr);
 
     // WHEN
-    FileReader fileReader(path);
-
-    // THEN
-    ASSERT_EQ(fileReader.isValid(), isValid);
+    auto lanes = laneReader.getLanes();
 }
 
-INSTANTIATE_TEST_SUITE_P(SomeDirectories,
-                         FileReaderTestFixture,
-                         ::testing::Values(TestDirectory{"nonexistingPath", false},
-                                           TestDirectory{"./bin/bowling-ut", false},
-                                           TestDirectory{"..", true}
-                         ));
+TEST_F(FolderReaderTest, ShouldHaveValidLines_IfValidFiles) {
+    // GIVEN
+    FolderReader fr(inputTestDirectory);
+    LaneReader laneReader(&fr);
 
-TEST(FileReaderTest, ShouldReadFiles) {
-    //GIVEN
-    std::string inputDirectory = "../test/inputTestDirectory";
+    // WHEN
+    auto lanes = laneReader.getLanes();
+    auto players = lanes[0]->getPlayers();
 
-    //WHEN
-    FileReader fileReader(inputDirectory);
+    //then
+    EXPECT_EQ(players.size(), 3);
+    validatePlayer(players[0], "Name1", "X|4-|3");
+    validatePlayer(players[1], "Name2", "34|X|0-");
+    validatePlayer(players[2], "", "X|22|33");
 
-    //THEN
-    ASSERT_TRUE(fileReader.isValid());
-    EXPECT_EQ(fileReader.getLanesNum(), 3);
-    EXPECT_EQ(fileReader.getLane(0)->getName(), "lane1");
-    EXPECT_EQ(fileReader.getLane(0)->getPlayersNum(), 3);
-    EXPECT_EQ(fileReader.getLane(0)->getPlayer(0), "Name1:X|4-|3");
-    EXPECT_EQ(fileReader.getLane(0)->getPlayer(1), "Name2:34|X|0-");  
-    EXPECT_EQ(fileReader.getLane(0)->getPlayer(2), ":X|22|33");
-
-    EXPECT_EQ(fileReader.getLane(1)->getName(), "lane2");
-    EXPECT_EQ(fileReader.getLane(1)->getPlayersNum(), 0);
-    EXPECT_EQ(fileReader.getLane(2)->getName(), "lane3");
-    EXPECT_EQ(fileReader.getLane(2)->getPlayersNum(), 2);
+    //AND
+    EXPECT_EQ(lanes[1]->getName(), "lane2");
+    EXPECT_EQ(lanes[1]->getPlayers().size(), 0);
+    EXPECT_EQ(lanes[2]->getName(), "lane3");
+    EXPECT_EQ(lanes[2]->getPlayers().size(), 2);
 }
+
+
