@@ -68,7 +68,10 @@ add_executable(${PROJECT_NAME}-ut
     ${TEST_DIR}/tokenizer-ut.cpp
     ${TEST_DIR}/parser-ut.cpp
 )
+<<<<<<< HEAD
 add_executable(${PROJECT_NAME}-ap-ut ${TEST_DIR}/ArgumentParser-ut.cpp)
+=======
+>>>>>>> tests + major refactor
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
 target_link_libraries(${PROJECT_NAME}-ut ${PROJECT_NAME}-lib gtest_main)
