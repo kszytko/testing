@@ -66,8 +66,6 @@ set(TESTS
     ${TEST_DIR}/filesReader-ut.cpp
     ${TEST_DIR}/parser-ut.cpp
 )
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})
 
