@@ -55,12 +55,17 @@ set(SOURCES
     ${SOURCE_DIR}/game.cpp
     ${SOURCE_DIR}/ArgumentParser.cpp
     ${SOURCE_DIR}/frameParser.cpp
+    ${SOURCE_DIR}/tokenizer.cpp
 )
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})
 
 add_executable(${PROJECT_NAME} ${SOURCE_DIR}/main.cpp)
-add_executable(${PROJECT_NAME}-ut ${TEST_DIR}/bowling-ut.cpp)
+add_executable(${PROJECT_NAME}-ut
+    ${TEST_DIR}/bowling-ut.cpp
+    ${TEST_DIR}/tokenizer-ut.cpp
+    ${TEST_DIR}/parser-ut.cpp
+)
 add_executable(${PROJECT_NAME}-ap-ut ${TEST_DIR}/ArgumentParser-ut.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
