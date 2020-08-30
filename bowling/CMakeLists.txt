@@ -56,11 +56,13 @@ set(SOURCES
     ${SOURCE_DIR}/filesReader.cpp
     ${SOURCE_DIR}/ArgumentParser.cpp
     ${SOURCE_DIR}/frameParser.cpp
+    ${SOURCE_DIR}/tokenizer.cpp
 )
 
 set(TESTS
     ${TEST_DIR}/bowling-ut.cpp
     ${TEST_DIR}/filesReader-ut.cpp
+    ${TEST_DIR}/parser-ut.cpp
 )
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})

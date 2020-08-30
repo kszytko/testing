@@ -2,21 +2,15 @@
 #include <string>
 #include <vector>
 
-constexpr char DELIMITER = '|';
-constexpr char STRIKE = 'X';  // Maybe map like - strike - 10, spare miss, 0, but additional logic with spare sign...
-constexpr char SPARE_SIGN = '/';
-constexpr char MISS = '-';
-
-using tokenizedFrame = std::pair<std::string,  std::vector<char>>;
 using parsedFrame = std::pair<std::string, std::vector<size_t>>;
 
 class FrameParser {
 public:
-    static parsedFrame parse(const std::string& gamePoints);
-};
+    static parsedFrame parse(const std::string& line);
 
-class Tokenizer {
-public:
-  static tokenizedFrame splitToFrames(const std::string& gamePoints);
-  static tokenizedFrame splitToFramesAlt(const std::string& gamePoints);
+private:
+    static const char StrikeSign;
+    static const char SpareSign;
+    static const char MissSign;
+    static size_t parseToken(const char token, size_t& lastParsedToken);
 };
