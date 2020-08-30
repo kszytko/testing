@@ -64,6 +64,7 @@ set(TESTS
     ${TEST_DIR}/filesReader-ut.cpp
     ${TEST_DIR}/parser-ut.cpp
 )
+<<<<<<< HEAD
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})
 
@@ -72,7 +73,6 @@ add_executable(${PROJECT_NAME}-ut ${TESTS})
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
 target_link_libraries(${PROJECT_NAME}-ut ${PROJECT_NAME}-lib gtest_main stdc++fs)
-add_executable(${PROJECT_NAME}-ap-ut ${TEST_DIR}/ArgumentParser-ut.cpp)
 
 target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}-lib)
 target_link_libraries(${PROJECT_NAME}-ut ${PROJECT_NAME}-lib gtest_main)
