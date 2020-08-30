@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "tokenizer.hpp"
 
 const char Tokenizer::FrameDelimiterSign = '|';
