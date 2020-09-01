@@ -1,3 +1,7 @@
+#include <algorithm>
+#include <iostream>
+#include <string> 
+
 #include "ArgumentParser.hpp"
 #include "game.hpp"
 
