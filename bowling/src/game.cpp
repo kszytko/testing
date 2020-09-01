@@ -27,19 +27,11 @@ void Game::reset() {
 }
 
 bool Game::isSpare(int firstFrameThrow) {
-<<<<<<< HEAD
     return rolls[firstFrameThrow] + rolls[++firstFrameThrow] == MAX_PINS;
 }
 
 bool Game::isStrike(int firstFrameThrow) {
     return rolls[firstFrameThrow] == MAX_PINS;
-=======
-    return (rolls[firstFrameThrow] + rolls[++firstFrameThrow] == MAX_PINS);
-}
-
-bool Game::isStrike(int firstFrameThrow) {
-    return (rolls[firstFrameThrow] == MAX_PINS);
->>>>>>> Formatted
 }
 
 int Game::nextTwoBallsForStrike(int firstFrameThrow) {
