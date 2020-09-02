@@ -17,18 +17,13 @@ class GetNameSuite : public testing::TestWithParam<std::pair<std::string, std::s
 class GetSeqSuite : public testing::TestWithParam<std::pair<std::string, std::string>> {};
 
 TEST_P(GetNameSuite, TestReadNameReturnsPartOfTheStringToColonSign) {
-    size_t pos = 0;
     auto [param, expected] = GetParam();
-    ASSERT_EQ(Tokenizer::readName(param, pos), expected);
+    ASSERT_EQ(Tokenizer::readName(param), expected);
 }
 
 TEST_P(GetSeqSuite, TestReadSequenceReturnsStringWithoutNameAndDelimiter) {
     auto [param, expected] = GetParam();
-    size_t pos = 0;
-    size_t next = param.find(":");
-    pos = next;
-
-    ASSERT_EQ(Tokenizer::readSequence(param, pos), expected);
+    ASSERT_EQ(Tokenizer::readSequence(param), expected);
 }
 
 INSTANTIATE_TEST_SUITE_P(TokenizerTestGroup, GetNameSuite, testing::ValuesIn(testingValuesGetName));
