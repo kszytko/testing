@@ -8,33 +8,34 @@ const char FrameParser::StrikeSign = 'X';
 const char FrameParser::MissSign = '-';
 const char FrameParser::SpareSign = '/';
 
-size_t FrameParser::parseToken(const char token, size_t& lastParsedToken) {
+void FrameParser::parseToken(const char token, size_t& lastRollValue) {
     switch (token) {
     case FrameParser::StrikeSign:
-        lastParsedToken = 10;
+        lastRollValue = 10;
         break;
     case FrameParser::SpareSign:
-        lastParsedToken = 10 - lastParsedToken;
+        lastRollValue = 10 - lastRollValue;
         break;
     case FrameParser::MissSign:
-        lastParsedToken = 0;
+        lastRollValue = 0;
         break;
     default:
-        lastParsedToken = token - '0';
+        lastRollValue = static_cast<size_t>(token - '0');
         break;
     }
-    return lastParsedToken;
 }
 
 parsedFrame FrameParser::parse(const std::string& line) {
     std::vector<size_t> parsed{};
-    size_t lastParsedToken{};
+    size_t lastRollValue{};
 
     auto name = Tokenizer::readName(line);
     auto sequence = Tokenizer::readSequence(line);
 
-    std::transform(sequence.cbegin(), sequence.cend(), back_inserter(parsed),
-                   std::bind(FrameParser::parseToken, std::placeholders::_1, lastParsedToken));
+    std::for_each(sequence.cbegin(), sequence.cend(), [&lastRollValue, &parsed](const auto& el) {
+        FrameParser::parseToken(el, lastRollValue);
+        parsed.push_back(lastRollValue);
+    });
 
     return std::pair(name, parsed);
 }

@@ -12,5 +12,5 @@ private:
     static const char StrikeSign;
     static const char SpareSign;
     static const char MissSign;
-    static size_t parseToken(const char token, size_t& lastParsedToken);
+    static void parseToken(const char token, size_t& lastRollValue);
 };
