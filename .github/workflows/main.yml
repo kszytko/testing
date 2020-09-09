@@ -29,5 +29,5 @@ jobs:
         source: '.'
         exclude: './third_party ./external'
         extensions: 'hpp,cpp'
-        clangFormatVersion: 9
+        clangFormatVersion: 10
   
