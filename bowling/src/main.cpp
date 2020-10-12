@@ -1,11 +1,23 @@
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 #include <string>
 
 #include "argumentParser.hpp"
 #include "game.hpp"
+#include "printer.hpp"
 
-void showHelp(std::string appName);
+void showHelp(std::string appName) {
+    std::cout << "Bowling game application reads text files from given directory, "
+              << "calculates the game results and optionally saves the results to text file.\n\n"
+              << "Application usage:\t" << appName << " <inputDirectory> [outputTextFile] [-h, --help]\n\n"
+              << "Arguments:\n"
+              << "\tinputDirectory\t\tMANDATORY: input directory with .txt files containing game scores\n"
+              << "\toutputTextFile\t\tOPTIONAL: output .txt file to save processed results\n\n"
+              << "Options:\n"
+              << "\t-h,--help\t\tShow this help message\n"
+              << std::endl;
+}
 
 int main(int argc, char* argv[]) {
     ArgumentParser ap{argc, argv};
@@ -21,17 +33,18 @@ int main(int argc, char* argv[]) {
     std::cout << "input dir: " << inputDirectory << "\n";
     std::cout << "output file: " << outputFileName << "\n";
 
-    return 0;
-}
+    Printer printer();
 
-void showHelp(std::string appName) {
-    std::cout << "Bowling game application reads text files from given directory, "
-              << "calculates the game results and optionally saves the results to text file.\n\n"
-              << "Application usage:\t" << appName << " <inputDirectory> [outputTextFile] [-h, --help]\n\n"
-              << "Arguments:\n"
-              << "\tinputDirectory\t\tMANDATORY: input directory with .txt files containing game scores\n"
-              << "\toutputTextFile\t\tOPTIONAL: output .txt file to save processed results\n\n"
-              << "Options:\n"
-              << "\t-h,--help\t\tShow this help message\n"
-              << std::endl;
+    if (outputFileName.empty()) {
+        printer.print(std::cout);
+    } else {
+        std::fstream output(outputFileName, output.out | output.app);
+        if(output.is_open()){
+            printer.print(output);
+            output.close()  
+        }      
+    }
+    
+
+        return 0;
 }
