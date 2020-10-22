@@ -1,7 +1,7 @@
 #include "printer.hpp"
 
-void Printer::print(std::vector<LaneStruct> lanes, std::ostream& outputStream) {
-    for (auto& lane : lanes) {
+void Printer::print(std::vector<LaneStruct> & lanes, std::ostream & outputStream) {
+    for (auto & lane : lanes) {
         printHeader(lane);
         printPlayers(lane);
     }

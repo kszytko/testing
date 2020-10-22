@@ -9,7 +9,7 @@
 
 class Printer{
 public:
-    void print(std::vector<LaneStruct> lanes, std::ostream& outputStream);
+    void print(std::vector<LaneStruct> & lanes, std::ostream & outputStream);
 
 private:
     void printHeader(LaneStruct & lane);
