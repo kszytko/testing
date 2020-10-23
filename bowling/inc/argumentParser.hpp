@@ -5,7 +5,7 @@
 
 class ArgumentParser {
 public:
-    ArgumentParser(int size, char** arguments);
+    ArgumentParser(size_t size, char** arguments);
 
     std::string getAppName() const;
     std::string getInputDirectory() const;

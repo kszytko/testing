@@ -1,13 +1,13 @@
 #include "game.hpp"
 
-void Game::roll(int pins) {
+void Game::roll(size_t pins) {
     rolls[currentRoll++] = pins;
 }
 
-int Game::score() {
-    int score_{};
-    int firstFrameThrow{};
-    for (int frame = 0; frame < MAX_FRAMES; ++frame) {
+size_t Game::score() {
+    size_t score_{};
+    size_t firstFrameThrow{};
+    for (size_t frame = 0; frame < MAX_FRAMES; ++frame) {
         if (isStrike(firstFrameThrow)) {
             score_ += MAX_FRAME_SCORE + nextTwoBallsForStrike(firstFrameThrow);
             firstFrameThrow++;
@@ -23,25 +23,26 @@ int Game::score() {
 }
 
 void Game::reset() {
+    rolls.fill(0);
     currentRoll = 0;
 }
 
-bool Game::isSpare(int firstFrameThrow) {
+bool Game::isSpare(size_t firstFrameThrow) {
     return rolls[firstFrameThrow] + rolls[++firstFrameThrow] == MAX_PINS;
 }
 
-bool Game::isStrike(int firstFrameThrow) {
+bool Game::isStrike(size_t firstFrameThrow) {
     return rolls[firstFrameThrow] == MAX_PINS;
 }
 
-int Game::nextTwoBallsForStrike(int firstFrameThrow) {
+size_t Game::nextTwoBallsForStrike(size_t firstFrameThrow) {
     return rolls[++firstFrameThrow] + rolls[++firstFrameThrow];
 }
 
-int Game::nextBallForSpare(int firstFrameThrow) {
+size_t Game::nextBallForSpare(size_t firstFrameThrow) {
     return rolls[firstFrameThrow + 2];
 }
 
-int Game::twoBallsInFrame(int firstFrameThrow) {
+size_t Game::twoBallsInFrame(size_t firstFrameThrow) {
     return rolls[firstFrameThrow] + rolls[++firstFrameThrow];
 }

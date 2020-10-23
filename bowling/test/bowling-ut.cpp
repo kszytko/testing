@@ -13,8 +13,8 @@ public:
         game.roll(5);
     }
     void rollStrike() { game.roll(10); }
-    void rollMany(int n, int pins) {
-        for (int i = 0; i < n; ++i) {
+    void rollMany(size_t n, size_t pins) {
+        for (size_t i = 0; i < n; ++i) {
             game.roll(pins);
         }
     }

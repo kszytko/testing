@@ -11,13 +11,13 @@ struct ArgumentParserTestFixture : public ::testing::Test {
     char additionalArgument[5] = "argX";
 
     char* noArgsAppCall[1] = {appName};
-    int noArgsAppCallCnt = 1;
+    size_t noArgsAppCallCnt = 1;
 
     char* onlyInputDirAppCall[2] = {appName, inputDir};
-    int onlyInputDirAppCallCnt = 2;
+    size_t onlyInputDirAppCallCnt = 2;
 
     char* bothDirAndFileAppCall[3] = {appName, inputDir, outputFileName};
-    int bothDirAndFileAppCallCnt = 3;
+    size_t bothDirAndFileAppCallCnt = 3;
 };
 
 TEST_F(ArgumentParserTestFixture, shouldBeInitializedWithGivenAppName) {
@@ -91,7 +91,7 @@ TEST_F(ArgumentParserTestFixture, helpShouldBeCalledWhenNotEnoughArguments) {
 TEST_F(ArgumentParserTestFixture, helpShouldBeCalledWhenTooMuchArguments) {
     // GIVEN
     char* argumentsArray[] = {appName, inputDir, outputFileName, additionalArgument};
-    int argumentsCounter = sizeof(argumentsArray) / sizeof(char*);
+    size_t argumentsCounter = sizeof(argumentsArray) / sizeof(char*);
     ArgumentParser ap{argumentsCounter, argumentsArray};
 
     // WHEN
@@ -104,7 +104,7 @@ TEST_F(ArgumentParserTestFixture, helpShouldBeCalledWhenTooMuchArguments) {
 TEST_F(ArgumentParserTestFixture, helpShouldBeCalledWhenShortHelpFlagUsed) {
     // GIVEN
     char* argumentsArray[] = {appName, helpArgShort};
-    int argumentsCounter = sizeof(argumentsArray) / sizeof(char*);
+    size_t argumentsCounter = sizeof(argumentsArray) / sizeof(char*);
     ArgumentParser ap{argumentsCounter, argumentsArray};
 
     // WHEN
@@ -117,7 +117,7 @@ TEST_F(ArgumentParserTestFixture, helpShouldBeCalledWhenShortHelpFlagUsed) {
 TEST_F(ArgumentParserTestFixture, helpShouldBeCalledWhenLongHelpFlagUsed) {
     // GIVEN
     char* argumentsArray[] = {appName, helpArgLong};
-    int argumentsCounter = sizeof(argumentsArray) / sizeof(char*);
+    size_t argumentsCounter = sizeof(argumentsArray) / sizeof(char*);
     ArgumentParser ap{argumentsCounter, argumentsArray};
 
     // WHEN

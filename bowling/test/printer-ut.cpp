@@ -59,7 +59,7 @@ TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {
 
 TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
     lanes.emplace_back("Lane 1", Status::IN_PROGRESS);
-    lanes[0].players.emplace_back("Name1", 30);
+    lanes[0].players_.emplace_back("Name1", 30);
 
     printer->print(lanes, stream);
 
@@ -70,7 +70,7 @@ TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
 
 TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
     lanes.emplace_back("Lane 1", Status::IN_PROGRESS);
-    lanes[0].players.emplace_back("", 30);
+    lanes[0].players_.emplace_back("", 30);
 
     printer->print(lanes, stream);
 
@@ -79,7 +79,7 @@ TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
     ASSERT_EQ(stream.str(), output);
 }
 
-TEST_F(PrinterTest, givenMultipleLines_ShouldPrintValidHeaders) {
+TEST_F(PrinterTest, givenMultipleLanes_ShouldPrintValidHeaders) {
     lanes.emplace_back("Lane 1", Status::IN_PROGRESS);
     lanes.emplace_back("Lane 2", Status::IN_PROGRESS);
     lanes.emplace_back("Lane 3", Status::IN_PROGRESS);
@@ -92,14 +92,14 @@ TEST_F(PrinterTest, givenMultipleLines_ShouldPrintValidHeaders) {
     ASSERT_EQ(stream.str(), output);
 }
 
-TEST_F(PrinterTest, givenMultipleLinesWithMultiplePlayers_ShouldPrintValidHeaders) {
+TEST_F(PrinterTest, givenMultipleLanesWithMultiplePlayers_ShouldPrintValidHeaders) {
     lanes.emplace_back("Lane 1", Status::IN_PROGRESS);
     lanes.emplace_back("Lane 2", Status::IN_PROGRESS);
     lanes.emplace_back("Lane 3", Status::IN_PROGRESS);
 
-    lanes[0].players.emplace_back("Name1", 10);
-    lanes[1].players.emplace_back("Name2", 20);
-    lanes[2].players.emplace_back("Name3", 30);
+    lanes[0].players_.emplace_back("Name1", 10);
+    lanes[1].players_.emplace_back("Name2", 20);
+    lanes[2].players_.emplace_back("Name3", 30);
 
     printer->print(lanes, stream);
 

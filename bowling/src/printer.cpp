@@ -9,7 +9,7 @@ void Printer::print(std::vector<LaneStruct> & lanes, std::ostream & outputStream
 }
 
 void Printer::printHeader(LaneStruct& lane) {
-    stream_ << "### " << lane.name << ": " << parseStatus(lane.status) << " ###\n";
+    stream_ << "### " << lane.name_ << ": " << parseStatus(lane.status_) << " ###\n";
 }
 
 std::string Printer::parseStatus(const Status & status) {
@@ -29,15 +29,15 @@ std::string Printer::parseStatus(const Status & status) {
 }
 
 void Printer::printPlayers(LaneStruct& lane) {
-    for (auto& player : lane.players) {
+    for (auto& player : lane.players_) {
         printPlayer(player);
         stream_ << "\n";
     }
 }
 
 void Printer::printPlayer(Player& player) {
-    if (!player.name.empty()) {
-        stream_ << player.name << " ";
+    if (!player.name_.empty()) {
+        stream_ << player.name_ << " ";
     }
-    stream_ << player.score;
+    stream_ << player.score_;
 }

@@ -2,14 +2,14 @@
 
 #include <algorithm>
 
-ArgumentParser::ArgumentParser(int size, char** arguments) {
+ArgumentParser::ArgumentParser(size_t size, char** arguments) {
     size_ = size;
     fillArgumentsVector(arguments);
 }
 
 void ArgumentParser::fillArgumentsVector(char** arguments) {
     arguments_.reserve(size_);
-    for (int i = 0; i < size_; ++i) {
+    for (size_t i = 0; i < size_; ++i) {
         arguments_.push_back(arguments[i]);
     }
 }
