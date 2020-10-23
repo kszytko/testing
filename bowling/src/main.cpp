@@ -36,11 +36,11 @@ int main(int argc, char* argv[]) {
     Printer printer();
 
     if (outputFileName.empty()) {
-        printer.print(std::cout);
+        printer.print({},std::cout);
     } else {
         std::fstream output(outputFileName, output.out | output.app);
         if(output.is_open()){
-            printer.print(output);
+            printer.print({},output);
             output.close()  
         }      
     }
