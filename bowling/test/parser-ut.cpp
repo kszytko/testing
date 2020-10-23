@@ -17,3 +17,27 @@ TEST_P(FrameParserSuite, TestParseProducesPairWithNameAndNumericValuesVectorOfTr
 }
 
 INSTANTIATE_TEST_SUITE_P(FrameParserTestGroup, FrameParserSuite, testing::ValuesIn(testingValuesParse));
+
+//---------------------------------------------------------
+
+using laneStringAndSequenceCompletenessFlag = std::vector<std::pair<std::string, bool>>;
+
+const laneStringAndSequenceCompletenessFlag testingValuesCompleteness = {{"Andrzej:7/|9-|X|-8|8/|-6|X|X|X||81", true},
+                                                                         {"Zbyszek:7/|9-|X|-8|8/|-6|X|X|X||8", false},
+                                                                         {":7/|9-|X|-8|8/|-6|X|X|X||", false},
+                                                                         {":7/|9-|X|-8|8/|-6|X|X|8/||2", true},
+                                                                         {":7/|9-|X|-8|8/|-6|X|X|8/||", false},
+                                                                         {":7/|9-|X|-8|8/|-6|X|X|82||", true},
+                                                                         {"Janusz:7/|9-|X|-8|8/", false},
+                                                                         {":8/|9-|X|-8|8/", false}};
+
+class SequenceCompletenessSuite : public testing::TestWithParam<std::pair<std::string, bool>> {};
+
+TEST_P(SequenceCompletenessSuite, TestChecksSequencesCompleteness) {
+    auto [param, expected] = GetParam();
+    ASSERT_EQ(FrameParser::isSequenceComplete(param), expected);
+}
+
+INSTANTIATE_TEST_SUITE_P(SequenceCompletenessTestGroup,
+                         SequenceCompletenessSuite,
+                         testing::ValuesIn(testingValuesCompleteness));

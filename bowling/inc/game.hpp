@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <iostream>
 
 constexpr size_t MAX_PINS{10};
@@ -14,7 +15,7 @@ public:
     void reset();
 
 private:
-    size_t rolls[MAX_ROLLS]{};
+    std::array<size_t, MAX_ROLLS> rolls;
     size_t currentRoll{};
 
     bool isSpare(size_t firstFrameThrow);

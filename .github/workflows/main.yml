@@ -4,7 +4,7 @@ on: [push, pull_request]
 
 jobs:
   Bowling:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
     - name: Check out code
       uses: actions/checkout@master
@@ -20,7 +20,7 @@ jobs:
       run: ctest -V
 
   Lint:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
     - uses: actions/checkout@v2

@@ -23,6 +23,7 @@ size_t Game::score() {
 }
 
 void Game::reset() {
+    rolls.fill(0);
     currentRoll = 0;
 }
 
