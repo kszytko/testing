@@ -1,8 +1,8 @@
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <numeric>
 #include <string>
-#include <fstream>
 
 #include "argumentParser.hpp"
 #include "filesReader.hpp"

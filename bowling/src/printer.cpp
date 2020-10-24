@@ -1,17 +1,39 @@
 #include "printer.hpp"
 
-void Printer::print(std::vector<LaneStruct> & lanes) {
-    for (auto & lane : lanes) {
+Printer::Printer(const std::ostream& outStream) {
+    stream_ = std::make_unique<std::ostream>(outStream.rdbuf());
+}
+
+Printer::Printer(const std::string& filename = "") {
+    if (filename.empty()) {
+        stream_ = std::make_unique<std::ostream>(std::cout.rdbuf());
+    } else {
+        file_ = std::make_unique<std::fstream>(filename, std::fstream::out | std::fstream::app);
+        if (!file_->is_open()) {
+            throw std::runtime_error("Open file not possible.");
+        }
+        stream_ = std::make_unique<std::ostream>(file_->rdbuf());
+    }
+}
+
+Printer::~Printer() {
+    if (file_) {
+        file_->close();
+    }
+}
+
+void Printer::print(std::vector<LaneStruct>& lanes) const {
+    for (auto& lane : lanes) {
         printHeader(lane);
         printPlayers(lane);
     }
 }
 
-void Printer::printHeader(LaneStruct& lane) {
+void Printer::printHeader(LaneStruct& lane) const {
     *stream_ << "### " << lane.name_ << ": " << parseStatus(lane.status_) << " ###\n";
 }
 
-std::string Printer::parseStatus(const Status & status) {
+std::string Printer::parseStatus(const Status& status) const {
     switch (status) {
     case Status::NO_GAME:
         return "no game";
@@ -27,14 +49,14 @@ std::string Printer::parseStatus(const Status & status) {
     }
 }
 
-void Printer::printPlayers(LaneStruct& lane) {
+void Printer::printPlayers(LaneStruct& lane) const {
     for (auto& player : lane.players_) {
         printPlayer(player);
         *stream_ << "\n";
     }
 }
 
-void Printer::printPlayer(Player& player) {
+void Printer::printPlayer(Player& player) const {
     if (!player.name_.empty()) {
         *stream_ << player.name_ << " ";
     }

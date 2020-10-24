@@ -1,12 +1,11 @@
 #include <gtest/gtest.h>
-#include <functional>
 #include <filesystem>
+#include <functional>
 
 #include "printer.hpp"
 
-struct PrinterTest : public ::testing::Test
-{
-    void SetUp() override{
+struct PrinterTest : public ::testing::Test {
+    void SetUp() override {
         stream.clear();
         printer = std::make_shared<Printer>(stream);
     }
@@ -63,8 +62,9 @@ TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
 
     printer->print(lanes);
 
-    auto output = "### Lane 1: game in progress ###\n"
-                  "Name1 30\n";
+    auto output =
+        "### Lane 1: game in progress ###\n"
+        "Name1 30\n";
     ASSERT_EQ(stream.str(), output);
 }
 
@@ -74,8 +74,9 @@ TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
 
     printer->print(lanes);
 
-    auto output = "### Lane 1: game in progress ###\n"
-                  "30\n";
+    auto output =
+        "### Lane 1: game in progress ###\n"
+        "30\n";
     ASSERT_EQ(stream.str(), output);
 }
 
@@ -86,9 +87,10 @@ TEST_F(PrinterTest, givenMultipleLanes_ShouldPrintValidHeaders) {
 
     printer->print(lanes);
 
-    auto output = "### Lane 1: game in progress ###\n"
-                  "### Lane 2: game in progress ###\n"
-                  "### Lane 3: game in progress ###\n";
+    auto output =
+        "### Lane 1: game in progress ###\n"
+        "### Lane 2: game in progress ###\n"
+        "### Lane 3: game in progress ###\n";
     ASSERT_EQ(stream.str(), output);
 }
 
@@ -103,12 +105,13 @@ TEST_F(PrinterTest, givenMultipleLanesWithMultiplePlayers_ShouldPrintValidHeader
 
     printer->print(lanes);
 
-    auto output = "### Lane 1: game in progress ###\n"
-                  "Name1 10\n"
-                  "### Lane 2: game in progress ###\n"
-                  "Name2 20\n"
-                  "### Lane 3: game in progress ###\n"
-                  "Name3 30\n";
+    auto output =
+        "### Lane 1: game in progress ###\n"
+        "Name1 10\n"
+        "### Lane 2: game in progress ###\n"
+        "Name2 20\n"
+        "### Lane 3: game in progress ###\n"
+        "Name3 30\n";
 
     ASSERT_EQ(stream.str(), output);
 }
