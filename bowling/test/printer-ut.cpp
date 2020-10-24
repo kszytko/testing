@@ -8,7 +8,7 @@ struct PrinterTest : public ::testing::Test
 {
     void SetUp() override{
         stream.clear();
-        printer = std::make_shared<Printer>();
+        printer = std::make_shared<Printer>(stream);
     }
 
     std::stringstream stream;
@@ -25,7 +25,7 @@ TEST_F(PrinterTest, GivenEmptyStruct_ShouldPrintNoData) {
     LaneStruct lane;
     lanes.push_back(lane);
 
-    printer->print(lanes, stream);
+    printer->print(lanes);
 
     ASSERT_EQ(stream.str(), "### :  ###\n");
 }
@@ -33,7 +33,7 @@ TEST_F(PrinterTest, GivenEmptyStruct_ShouldPrintNoData) {
 TEST_F(PrinterTest, laneInProgress_ShouldPrintValidHeader) {
     lanes.emplace_back("Lane 1", Status::IN_PROGRESS);
 
-    printer->print(lanes, stream);
+    printer->print(lanes);
 
     auto output = "### Lane 1: game in progress ###\n";
     ASSERT_EQ(stream.str(), output);
@@ -42,7 +42,7 @@ TEST_F(PrinterTest, laneInProgress_ShouldPrintValidHeader) {
 TEST_F(PrinterTest, laneNoGame_ShouldPrintValidHeader) {
     lanes.emplace_back("Lane 1", Status::NO_GAME);
 
-    printer->print(lanes, stream);
+    printer->print(lanes);
 
     auto output = "### Lane 1: no game ###\n";
     ASSERT_EQ(stream.str(), output);
@@ -51,7 +51,7 @@ TEST_F(PrinterTest, laneNoGame_ShouldPrintValidHeader) {
 TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {
     lanes.emplace_back("Lane 1", Status::FINISHED);
 
-    printer->print(lanes, stream);
+    printer->print(lanes);
 
     auto output = "### Lane 1: game finished ###\n";
     ASSERT_EQ(stream.str(), output);
@@ -61,7 +61,7 @@ TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
     lanes.emplace_back("Lane 1", Status::IN_PROGRESS);
     lanes[0].players_.emplace_back("Name1", 30);
 
-    printer->print(lanes, stream);
+    printer->print(lanes);
 
     auto output = "### Lane 1: game in progress ###\n"
                   "Name1 30\n";
@@ -72,7 +72,7 @@ TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
     lanes.emplace_back("Lane 1", Status::IN_PROGRESS);
     lanes[0].players_.emplace_back("", 30);
 
-    printer->print(lanes, stream);
+    printer->print(lanes);
 
     auto output = "### Lane 1: game in progress ###\n"
                   "30\n";
@@ -84,7 +84,7 @@ TEST_F(PrinterTest, givenMultipleLanes_ShouldPrintValidHeaders) {
     lanes.emplace_back("Lane 2", Status::IN_PROGRESS);
     lanes.emplace_back("Lane 3", Status::IN_PROGRESS);
 
-    printer->print(lanes, stream);
+    printer->print(lanes);
 
     auto output = "### Lane 1: game in progress ###\n"
                   "### Lane 2: game in progress ###\n"
@@ -101,7 +101,7 @@ TEST_F(PrinterTest, givenMultipleLanesWithMultiplePlayers_ShouldPrintValidHeader
     lanes[1].players_.emplace_back("Name2", 20);
     lanes[2].players_.emplace_back("Name3", 30);
 
-    printer->print(lanes, stream);
+    printer->print(lanes);
 
     auto output = "### Lane 1: game in progress ###\n"
                   "Name1 10\n"
@@ -112,10 +112,3 @@ TEST_F(PrinterTest, givenMultipleLanesWithMultiplePlayers_ShouldPrintValidHeader
 
     ASSERT_EQ(stream.str(), output);
 }
-
-struct PrinterIntoFileTest : public ::testing::Test
-{
-    Printer* printer;
-    std::vector<LaneStruct> lanes;
-    std::ostringstream oss;
-};

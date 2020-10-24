@@ -61,17 +61,7 @@ int main(int argc, char* argv[]) {
         lanes.push_back(printableLane);
     }
 
-    Printer printer;
-
-    if (outputFileName.empty()) {
-        printer.print(lanes,std::cout);
-    } else {
-        std::fstream output(outputFileName, output.out | output.app);
-        if(output.is_open()){
-            printer.print(lanes, output);
-            output.close() ; 
-        }      
-    }
+    Printer(outputFileName).print(lanes);
     
     return 0;
 }
