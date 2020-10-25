@@ -23,7 +23,6 @@ void showHelp(std::string appName) {
               << std::endl;
 }
 
-
 int main(int argc, char* argv[]) {
     ArgumentParser ap{static_cast<size_t>(argc), argv};
 
@@ -41,7 +40,7 @@ int main(int argc, char* argv[]) {
 
 
 
-    Printer(outputFileName).print(score.lanes_);
+    Printer(outputFileName).print(reader.getLanes());
     //Printer(outputFileName).print(ScoreCounter);
  
     return 0;
