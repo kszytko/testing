@@ -5,7 +5,18 @@
 #include "game.hpp"
 #include <memory>
 
-#include "printableData.hpp"
+enum class Status { NO_GAME, IN_PROGRESS, FINISHED };
+
+struct Player {
+    std::string name_;
+    size_t score_;
+};
+
+struct LaneStruct {
+    std::string name_;
+    Status status_;
+    std::vector<Player> players_;
+};
 
 class ScoreCounter{
 public:
@@ -14,33 +25,39 @@ public:
     }
 
     void calculate(FilesReader & reader){
-        Game game;
-        for (size_t i = 0; i < reader.getLanesNum(); i++) {
-            auto lane = reader.getLane(i);
-            LaneStruct printableLane(lane->getName(), Status::NO_GAME);
-            bool allSequencesComplete = true;
-            for (size_t j = 0; j < lane->getPlayersNum(); j++) {
-                allSequencesComplete &= FrameParser::isSequenceComplete(lane->getPlayer(j));
-                auto parsed = FrameParser::parse(lane->getPlayer(j));
-                for (const auto& el : parsed.second) {
-                    game.roll(el);
-                }
-                printableLane.players_.emplace_back(parsed.first, game.score());
-                game.reset();
-            }
-            if (lane->getPlayersNum() == 0) {
-                printableLane.status_ = Status::NO_GAME;
-            } else if (allSequencesComplete) {
-                printableLane.status_ = Status::FINISHED;
-            } else {
-                printableLane.status_ = Status::IN_PROGRESS;
-            }
-            lanes.push_back(printableLane);
+        for (auto & lane : reader.getLanes()) {
+            calculateLane(lane);
         }
     }
 
+    void calculateLane(std::shared_ptr<Lane> & lane){
+        LaneStruct printableLane;
+        bool allSequencesComplete = true;
+
+        for (auto & player : lane->players_) {
+            allSequencesComplete &= FrameParser::isSequenceComplete(player);
+            auto [playerName, rolls] = FrameParser::parse(player);
+
+
+            printableLane.players_.push_back({playerName, game.calculateScore(rolls)});
+        }
+        
+        if (allSequencesComplete) {
+            printableLane.status_ = Status::FINISHED;
+        } 
+        else if(lane->getPlayersNum() > 0){
+            printableLane.status_ = Status::IN_PROGRESS;
+        }
+
+        lanes_.push_back(printableLane);
+    }
+
+    
+
 private:
     std::shared_ptr<FilesReader> reader_;
+    Game game;
+
 public:
-    std::vector<LaneStruct> lanes;
+    std::vector<LaneStruct> lanes_;
 };

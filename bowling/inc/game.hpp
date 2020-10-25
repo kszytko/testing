@@ -2,6 +2,7 @@
 
 #include <array>
 #include <iostream>
+#include <vector>
 
 constexpr size_t MAX_PINS{10};
 constexpr size_t MAX_FRAMES{10};
@@ -10,12 +11,13 @@ constexpr size_t MAX_FRAME_SCORE{MAX_PINS};
 
 class Game {
 public:
+    size_t calculateScore(std::vector<size_t> & rolls);
     void roll(size_t pins);
     size_t score();
     void reset();
 
 private:
-    std::array<size_t, MAX_ROLLS> rolls;
+    std::array<size_t, MAX_ROLLS> rolls_;
     size_t currentRoll{};
 
     bool isSpare(size_t firstFrameThrow);
