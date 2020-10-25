@@ -31,13 +31,9 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    auto inputDirectory = ap.getInputDirectory();
-    auto outputFileName = ap.getOutputFileName();
-
-
-    FilesReader reader(inputDirectory);
+    FilesReader reader(ap.getInputDirectory());
     ScoreCounter score(reader);
-    Printer(outputFileName).print(score);
+    Printer(ap.getOutputFileName()).print(score);
  
     return 0;
 }
