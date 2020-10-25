@@ -59,6 +59,7 @@ set(SOURCES
     ${SOURCE_DIR}/tokenizer.cpp
     ${SOURCE_DIR}/printer.cpp
     ${SOURCE_DIR}/lane.cpp
+    ${SOURCE_DIR}/scoreCounter.cpp
 )
 
 set(TESTS
