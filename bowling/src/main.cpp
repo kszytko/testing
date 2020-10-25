@@ -8,7 +8,6 @@
 #include "filesReader.hpp"
 #include "frameParser.hpp"
 #include "game.hpp"
-#include "printableData.hpp"
 #include "printer.hpp"
 #include "scoreCounter.hpp"
 
@@ -42,7 +41,7 @@ int main(int argc, char* argv[]) {
 
 
 
-    Printer(outputFileName).print(score.lanes);
+    Printer(outputFileName).print(score.lanes_);
     //Printer(outputFileName).print(ScoreCounter);
  
     return 0;
