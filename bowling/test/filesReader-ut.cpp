@@ -33,15 +33,24 @@ TEST(FilesReaderTest, ShouldReadFiles) {
     FilesReader filesReader(inputDirectory);
 
     // THEN
+    auto lanes = filesReader.getLanes();
+    
     EXPECT_EQ(filesReader.getLanesNum(), 3);
-    EXPECT_EQ(filesReader.getLane(0)->getName(), "lane1");
-    EXPECT_EQ(filesReader.getLane(0)->getPlayersNum(), 3);
-    EXPECT_EQ(filesReader.getLane(0)->getPlayer(0), "Name1:X|4-|3");
-    EXPECT_EQ(filesReader.getLane(0)->getPlayer(1), "Name2:34|X|0-");
-    EXPECT_EQ(filesReader.getLane(0)->getPlayer(2), ":X|22|33");
 
-    EXPECT_EQ(filesReader.getLane(1)->getName(), "lane2");
-    EXPECT_EQ(filesReader.getLane(1)->getPlayersNum(), 0);
-    EXPECT_EQ(filesReader.getLane(2)->getName(), "lane3");
-    EXPECT_EQ(filesReader.getLane(2)->getPlayersNum(), 2);
+    EXPECT_EQ(lanes[0].name_, "lane1");
+    EXPECT_EQ(lanes[0].players_.size(), 3);
+
+    EXPECT_EQ(lanes[0].players_[0].name_, "Name1");
+    EXPECT_EQ(lanes[0].players_[0].game_, "X|4-|3");  
+
+    EXPECT_EQ(lanes[0].players_[1].name_, "Name2");
+    EXPECT_EQ(lanes[0].players_[1].game_, "34|X|0-");
+
+    EXPECT_EQ(lanes[0].players_[2].name_, "");
+    EXPECT_EQ(lanes[0].players_[2].game_, "X|22|33");
+
+    EXPECT_EQ(lanes[1].name_, "lane2");
+    EXPECT_EQ(lanes[1].players_.size(), 0);
+    EXPECT_EQ(lanes[2].name_, "lane3");
+    EXPECT_EQ(lanes[2].players_.size(), 2);
 }

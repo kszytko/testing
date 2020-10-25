@@ -6,8 +6,8 @@
 
 FilesReader::FilesReader(const std::string& directory) : directoryPath_(fs::path(directory)) {
     checkDirectory();
-
-    readFiles(makeFileList());
+    makeFileList();
+    readFiles();
 };
 
 void FilesReader::checkDirectory() const {
@@ -19,40 +19,48 @@ void FilesReader::checkDirectory() const {
     }
 }
 
-std::vector<fs::path> FilesReader::makeFileList() {
-    std::vector<fs::path> files;
-
+void FilesReader::makeFileList() {
     for (const auto& entry : fs::directory_iterator(directoryPath_)) {
         auto filename = entry.path().filename();
         if (fs::is_regular_file(entry.status())) {
-            files.push_back(entry.path());
+            files_.push_back(entry.path());
         }
     }
-    files.shrink_to_fit();
-    std::sort(files.begin(), files.end());
-
-    return files;
+    files_.shrink_to_fit();
+    std::sort(files_.begin(), files_.end());
 }
 
-std::shared_ptr<Lane> FilesReader::getLane(size_t index) const {
+Lane* FilesReader::getLane(size_t index) {
     if (index < lanes_.size()) {
-        return lanes_[index];
+        return &lanes_[index];
     }
     return nullptr;
 }
 
-void FilesReader::readFiles(const std::vector<fs::path>& files) {
-    for (const auto& file : files) {
-        Lane lane(file.stem());
-        readPlayers(file, lane);
-        lanes_.push_back(std::make_shared<Lane>(lane));
+void FilesReader::readFiles() {
+    for (const auto& file : files_) {
+        auto fileName = file.stem().string();
+        Lane lane{fileName};
+
+        lane.addPlayers(readLines(file));
+        lanes_.push_back(lane);
     }
 }
 
-void FilesReader::readPlayers(const fs::path& file, Lane& lane) {
+std::vector<std::string> FilesReader::readLines(const fs::path& file) {
     std::ifstream infile(file);
     std::string line;
+    std::vector<std::string> lanes;
+
     while (std::getline(infile, line)) {
-        lane.addPlayer(line);
+        if (isLineValid(line)) {
+            lanes.push_back(line);
+        }
     }
+
+    return lanes;
+}
+
+bool FilesReader::isLineValid(std::string line) {
+    return line.find(':') != std::string::npos;
 }

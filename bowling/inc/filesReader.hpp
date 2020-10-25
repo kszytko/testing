@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "lane.hpp"
 
@@ -13,15 +14,17 @@ public:
     FilesReader(const std::string& directory);
 
     size_t getLanesNum() const { return lanes_.size(); }
-    std::shared_ptr<Lane> getLane(size_t index) const;
-    std::vector<std::shared_ptr<Lane>> getLanes() const {return lanes_;};
+    Lane * getLane(size_t index);
+    std::vector<Lane> getLanes() const { return lanes_; };
 
 private:
     fs::path directoryPath_;
-    std::vector<std::shared_ptr<Lane>> lanes_;
+    std::vector<fs::path> files_;
+    std::vector<Lane> lanes_;
 
     void checkDirectory() const;
-    std::vector<fs::path> makeFileList();
-    void readFiles(const std::vector<fs::path>& files);
-    void readPlayers(const fs::path& file, Lane& lane);
+    void makeFileList();
+    void readFiles();
+    std::vector<std::string> readLines(const fs::path& file);
+    bool isLineValid(std::string line);
 };
