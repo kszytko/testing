@@ -62,5 +62,5 @@ std::vector<std::string> FilesReader::readLines(const fs::path& file) {
 }
 
 bool FilesReader::isLineValid(std::string line) {
-    return line.find(':') != std::string::npos;
+    return line.find(NAME_DELIMITER_SIGN) != std::string::npos;
 }

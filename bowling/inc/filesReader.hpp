@@ -14,7 +14,7 @@ public:
     FilesReader(const std::string& directory);
 
     size_t getLanesNum() const { return lanes_.size(); }
-    Lane * getLane(size_t index);
+    Lane* getLane(size_t index);
     std::vector<Lane> getLanes() const { return lanes_; };
 
 private:
