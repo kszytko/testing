@@ -1,28 +1,39 @@
 #include "printer.hpp"
-#include <sstream>
 
-void Printer::print(const std::vector<LaneStruct>& lanes) {
+Printer::Printer(const std::ostream& outStream) {
+    stream_ = std::make_unique<std::ostream>(outStream.rdbuf());
+}
+
+Printer::Printer(const std::string& filename) {
+    if (filename.empty()) {
+        stream_ = std::make_unique<std::ostream>(std::cout.rdbuf());
+    } else {
+        file_ = std::make_unique<std::fstream>(filename, std::fstream::out | std::fstream::app);
+        if (!file_->is_open()) {
+            throw std::runtime_error("Open file not possible.");
+        }
+        stream_ = std::make_unique<std::ostream>(file_->rdbuf());
+    }
+}
+
+Printer::~Printer() {
+    if (file_) {
+        file_->close();
+    }
+}
+
+void Printer::print(std::vector<LaneStruct>& lanes) const {
     for (auto& lane : lanes) {
         printHeader(lane);
         printPlayers(lane);
     }
 }
 
-void Printer::printHeader(const LaneStruct& lane) const {
-    std::stringstream s;
-    s << "### " << lane.name_ << ": " << parseStatus(lane.status_) << " ###\n";
-    printData(s.str());
+void Printer::printHeader(LaneStruct& lane) const {
+    *stream_ << "### " << lane.name_ << ": " << parseStatus(lane.status_) << " ###\n";
 }
 
-void Printer::printData(std::string text) const {
-    stream_->print(text);
-}
-
-void Printer::printData(size_t value) const {
-    stream_->print(value);
-}
-
-std::string Printer::parseStatus(const Status status) const {
+std::string Printer::parseStatus(const Status& status) const {
     switch (status) {
     case Status::NO_GAME:
         return "no game";
@@ -38,16 +49,16 @@ std::string Printer::parseStatus(const Status status) const {
     }
 }
 
-void Printer::printPlayers(const LaneStruct& lane) const {
+void Printer::printPlayers(LaneStruct& lane) const {
     for (auto& player : lane.players_) {
         printPlayer(player);
-        printData("\n");
+        *stream_ << "\n";
     }
 }
 
-void Printer::printPlayer(const Player& player) const {
+void Printer::printPlayer(Player& player) const {
     if (!player.name_.empty()) {
-        printData(player.name_ + " ");
+        *stream_ << player.name_ << " ";
     }
-    printData(player.score_);
+    *stream_ << player.score_;
 }

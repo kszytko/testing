@@ -3,11 +3,7 @@
 #include <string>
 #include <vector>
 
-enum class Status { 
-    NO_GAME, 
-    IN_PROGRESS, 
-    FINISHED 
-};
+enum class Status { NO_GAME, IN_PROGRESS, FINISHED };
 
 struct Player {
     Player(std::string name, size_t score) : name_(name), score_(score){};

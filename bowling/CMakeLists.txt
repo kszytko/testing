@@ -58,11 +58,6 @@ set(SOURCES
     ${SOURCE_DIR}/frameParser.cpp
     ${SOURCE_DIR}/tokenizer.cpp
     ${SOURCE_DIR}/printer.cpp
-    ${SOURCE_DIR}/consoleStream.cpp
-    ${SOURCE_DIR}/fileStream.cpp
-
-
-
 )
 
 set(TESTS

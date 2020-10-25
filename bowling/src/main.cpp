@@ -1,18 +1,27 @@
 #include <algorithm>
+#include <fstream>
 #include <iostream>
 #include <numeric>
 #include <string>
 
 #include "argumentParser.hpp"
-#include "consoleStream.hpp"
 #include "filesReader.hpp"
-#include "fileStream.hpp"
 #include "frameParser.hpp"
 #include "game.hpp"
 #include "printableData.hpp"
 #include "printer.hpp"
 
-void showHelp(std::string appName);
+void showHelp(std::string appName) {
+    std::cout << "Bowling game application reads text files from given directory, "
+              << "calculates the game results and optionally saves the results to text file.\n\n"
+              << "Application usage:\t" << appName << " <inputDirectory> [outputTextFile] [-h, --help]\n\n"
+              << "Arguments:\n"
+              << "\tinputDirectory\t\tMANDATORY: input directory with .txt files containing game scores\n"
+              << "\toutputTextFile\t\tOPTIONAL: output .txt file to save processed results\n\n"
+              << "Options:\n"
+              << "\t-h,--help\t\tShow this help message\n"
+              << std::endl;
+}
 
 int main(int argc, char* argv[]) {
     ArgumentParser ap{static_cast<size_t>(argc), argv};
@@ -25,16 +34,6 @@ int main(int argc, char* argv[]) {
     auto inputDirectory = ap.getInputDirectory();
     auto outputFileName = ap.getOutputFileName();
 
-    ConsoleStream consoleStr;
-    FileStream* fileStr{nullptr};
-    PrinterStream* prntStr;
-    if (outputFileName.empty()) {
-        prntStr = &consoleStr;
-    } else {
-        fileStr = new FileStream(outputFileName);
-        prntStr = fileStr;
-    }
-    Printer prnt(prntStr);
     std::vector<LaneStruct> lanes;
 
     FilesReader reader(inputDirectory);
@@ -61,23 +60,8 @@ int main(int argc, char* argv[]) {
         }
         lanes.push_back(printableLane);
     }
-    prnt.print(lanes);
-    if (outputFileName.empty()) {
-        std::cout << consoleStr.str();
-    }
-    delete fileStr;
+
+    Printer(outputFileName).print(lanes);
 
     return 0;
-}
-
-void showHelp(std::string appName) {
-    std::cout << "Bowling game application reads text files from given directory, "
-              << "calculates the game results and optionally saves the results to text file.\n\n"
-              << "Application usage:\t" << appName << " <inputDirectory> [outputTextFile] [-h, --help]\n\n"
-              << "Arguments:\n"
-              << "\tinputDirectory\t\tMANDATORY: input directory with .txt files containing game scores\n"
-              << "\toutputTextFile\t\tOPTIONAL: output .txt file to save processed results\n\n"
-              << "Options:\n"
-              << "\t-h,--help\t\tShow this help message\n"
-              << std::endl;
 }

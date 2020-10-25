@@ -1,24 +1,30 @@
 #pragma once
 
 #include "printableData.hpp"
-#include "printerStream.hpp"
 
+#include <fstream>
+#include <iostream>
+#include <memory>
+#include <sstream>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
 class Printer {
 public:
-    Printer(PrinterStream* stream) : stream_(stream){};
-    void print(const std::vector<LaneStruct>& lanes);
+    explicit Printer(const std::ostream& outStream);
+    explicit Printer(const std::string& filename = "");
+    ~Printer();
+
+    void print(std::vector<LaneStruct>& lanes) const;
 
 private:
-    void printHeader(const LaneStruct& lane) const;
-    void printData(std::string text) const;
-    void printData(size_t value) const;
-    std::string parseStatus(const Status status) const;
-    void printPlayers(const LaneStruct& lane) const;
-    void printPlayer(const Player& player) const;
+    void printHeader(LaneStruct& lane) const;
+    std::string parseStatus(const Status& status) const;
+    void printPlayers(LaneStruct& lane) const;
+    void printPlayer(Player& player) const;
 
 private:
-    PrinterStream* stream_;
+    std::unique_ptr<std::ostream> stream_;
+    std::unique_ptr<std::fstream> file_;
 };
