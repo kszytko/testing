@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-using parsedFrame = std::pair<std::string, std::vector<size_t>>;
+using parsedFrame = std::vector<size_t>;
 
 class FrameParser {
 public:

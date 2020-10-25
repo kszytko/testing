@@ -4,9 +4,9 @@
 using stringParsedFrameVector = std::vector<std::pair<std::string, parsedFrame>>;
 
 const stringParsedFrameVector testingValuesParse = {
-    {"Andrzej:7/|9-|X|-8|8/|-6|X|X|X||81", {"Andrzej", {7, 3, 9, 0, 10, 0, 8, 8, 2, 0, 6, 10, 10, 10, 8, 1}}},
-    {"Janusz:7/|9-|X|-8|8/", {"Janusz", {7, 3, 9, 0, 10, 0, 8, 8, 2}}},
-    {":8/|9-|X|-8|8/", {"", {8, 2, 9, 0, 10, 0, 8, 8, 2}}},
+    {"7/|9-|X|-8|8/|-6|X|X|X||81", {7, 3, 9, 0, 10, 0, 8, 8, 2, 0, 6, 10, 10, 10, 8, 1}},
+    {"7/|9-|X|-8|8/", {7, 3, 9, 0, 10, 0, 8, 8, 2}},
+    {"8/|9-|X|-8|8/", {8, 2, 9, 0, 10, 0, 8, 8, 2}},
 };
 
 class FrameParserSuite : public testing::TestWithParam<std::pair<std::string, parsedFrame>> {};
@@ -22,14 +22,14 @@ INSTANTIATE_TEST_SUITE_P(FrameParserTestGroup, FrameParserSuite, testing::Values
 
 using laneStringAndSequenceCompletenessFlag = std::vector<std::pair<std::string, bool>>;
 
-const laneStringAndSequenceCompletenessFlag testingValuesCompleteness = {{"Andrzej:7/|9-|X|-8|8/|-6|X|X|X||81", true},
-                                                                         {"Zbyszek:7/|9-|X|-8|8/|-6|X|X|X||8", false},
-                                                                         {":7/|9-|X|-8|8/|-6|X|X|X||", false},
-                                                                         {":7/|9-|X|-8|8/|-6|X|X|8/||2", true},
-                                                                         {":7/|9-|X|-8|8/|-6|X|X|8/||", false},
-                                                                         {":7/|9-|X|-8|8/|-6|X|X|82||", true},
-                                                                         {"Janusz:7/|9-|X|-8|8/", false},
-                                                                         {":8/|9-|X|-8|8/", false}};
+const laneStringAndSequenceCompletenessFlag testingValuesCompleteness = {{"7/|9-|X|-8|8/|-6|X|X|X||81", true},
+                                                                         {"7/|9-|X|-8|8/|-6|X|X|X||8", false},
+                                                                         {"7/|9-|X|-8|8/|-6|X|X|X||", false},
+                                                                         {"7/|9-|X|-8|8/|-6|X|X|8/||2", true},
+                                                                         {"7/|9-|X|-8|8/|-6|X|X|8/||", false},
+                                                                         {"7/|9-|X|-8|8/|-6|X|X|82||", true},
+                                                                         {"7/|9-|X|-8|8/", false},
+                                                                         {"8/|9-|X|-8|8/", false}};
 
 class SequenceCompletenessSuite : public testing::TestWithParam<std::pair<std::string, bool>> {};
 
