@@ -18,7 +18,7 @@ public:
 
     void addPlayer(const std::string& player) { players_.push_back(player); }
 
-private:
+public:
     std::string name_;
     std::vector<std::string> players_;
 };

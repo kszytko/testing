@@ -14,6 +14,7 @@ public:
 
     size_t getLanesNum() const { return lanes_.size(); }
     std::shared_ptr<Lane> getLane(size_t index) const;
+    std::vector<std::shared_ptr<Lane>> getLanes() const {return lanes_;};
 
 private:
     fs::path directoryPath_;
