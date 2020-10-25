@@ -22,14 +22,14 @@ Printer::~Printer() {
     }
 }
 
-void Printer::print(std::vector<LaneStruct>& lanes) const {
+void Printer::print(const std::vector<Lane>& lanes) const {
     for (auto& lane : lanes) {
         printHeader(lane);
         printPlayers(lane);
     }
 }
 
-void Printer::printHeader(LaneStruct& lane) const {
+void Printer::printHeader(const Lane& lane) const {
     *stream_ << "### " << lane.name_ << ": " << parseStatus(lane.status_) << " ###\n";
 }
 
@@ -49,14 +49,14 @@ std::string Printer::parseStatus(const Status& status) const {
     }
 }
 
-void Printer::printPlayers(LaneStruct& lane) const {
+void Printer::printPlayers(const Lane& lane) const {
     for (auto& player : lane.players_) {
         printPlayer(player);
         *stream_ << "\n";
     }
 }
 
-void Printer::printPlayer(Player& player) const {
+void Printer::printPlayer(const Player& player) const {
     if (!player.name_.empty()) {
         *stream_ << player.name_ << " ";
     }

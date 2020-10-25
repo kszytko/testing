@@ -3,6 +3,7 @@
 #include <functional>
 
 #include "printer.hpp"
+#include "lane.hpp"
 
 struct PrinterTest : public ::testing::Test {
     void SetUp() override {
@@ -12,7 +13,7 @@ struct PrinterTest : public ::testing::Test {
 
     std::stringstream stream;
     std::shared_ptr<Printer> printer;
-    std::vector<LaneStruct> lanes;
+    std::vector<Lane> lanes;
 };
 
 TEST_F(PrinterTest, GivenEmptyOutputFile_ShouldPrintData) {
@@ -21,7 +22,7 @@ TEST_F(PrinterTest, GivenEmptyOutputFile_ShouldPrintData) {
 }
 
 TEST_F(PrinterTest, GivenEmptyStruct_ShouldPrintNoData) {
-    LaneStruct lane;
+    Lane lane;
     lanes.push_back(lane);
 
     printer->print(lanes);
@@ -58,7 +59,7 @@ TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {
 
 TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
     lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
-    lanes[0].players_.push_back({"Name1", 30});
+    lanes[0].players_.push_back({"Name1", "", 30});
 
     printer->print(lanes);
 
@@ -70,7 +71,7 @@ TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
 
 TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
     lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
-    lanes[0].players_.push_back({"", 30});
+    lanes[0].players_.push_back({"", "", 30});
 
     printer->print(lanes);
 
@@ -99,9 +100,9 @@ TEST_F(PrinterTest, givenMultipleLanesWithMultiplePlayers_ShouldPrintValidHeader
     lanes.push_back({"Lane 2", Status::IN_PROGRESS, {}});
     lanes.push_back({"Lane 3", Status::IN_PROGRESS, {}});
 
-    lanes[0].players_.push_back({"Name1", 10});
-    lanes[1].players_.push_back({"Name2", 20});
-    lanes[2].players_.push_back({"Name3", 30});
+    lanes[0].players_.push_back({"Name1", "", 10});
+    lanes[1].players_.push_back({"Name2", "", 20});
+    lanes[2].players_.push_back({"Name3", "", 30});
 
     printer->print(lanes);
 
