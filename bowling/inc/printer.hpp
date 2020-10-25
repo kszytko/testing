@@ -1,6 +1,6 @@
 #pragma once
 
-#include "printableData.hpp"
+#include "scoreCounter.hpp"
 
 #include <fstream>
 #include <iostream>

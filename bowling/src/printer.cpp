@@ -4,7 +4,7 @@ Printer::Printer(const std::ostream& outStream) {
     stream_ = std::make_unique<std::ostream>(outStream.rdbuf());
 }
 
-Printer::Printer(const std::string& filename = "") {
+Printer::Printer(const std::string& filename) {
     if (filename.empty()) {
         stream_ = std::make_unique<std::ostream>(std::cout.rdbuf());
     } else {
