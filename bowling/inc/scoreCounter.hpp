@@ -7,6 +7,7 @@
 class ScoreCounter{
 public:
     ScoreCounter(FilesReader & reader);
+    std::vector<Lane> getLanes() const { return lanes_; };
 
 private:
     void calculate();

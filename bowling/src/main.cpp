@@ -37,11 +37,7 @@ int main(int argc, char* argv[]) {
 
     FilesReader reader(inputDirectory);
     ScoreCounter score(reader);
-
-
-
-    Printer(outputFileName).print(reader.getLanes());
-    //Printer(outputFileName).print(ScoreCounter);
+    Printer(outputFileName).print(score);
  
     return 0;
 }

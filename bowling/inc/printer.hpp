@@ -17,7 +17,8 @@ public:
     explicit Printer(const std::string& filename = "");
     ~Printer();
 
-    void print(const std::vector<Lane>& lanes) const;
+    void print(ScoreCounter& score) const;
+    void printLanes(const std::vector<Lane> & lanes) const;
 
 private:
     void printHeader(const Lane& lane) const;

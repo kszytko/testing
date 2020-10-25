@@ -25,7 +25,7 @@ TEST_F(PrinterTest, GivenEmptyStruct_ShouldPrintNoData) {
     Lane lane;
     lanes.push_back(lane);
 
-    printer->print(lanes);
+    printer->printLanes(lanes);
 
     ASSERT_EQ(stream.str(), "### :  ###\n");
 }
@@ -33,7 +33,7 @@ TEST_F(PrinterTest, GivenEmptyStruct_ShouldPrintNoData) {
 TEST_F(PrinterTest, laneInProgress_ShouldPrintValidHeader) {
     lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
 
-    printer->print(lanes);
+    printer->printLanes(lanes);
 
     auto output = "### Lane 1: game in progress ###\n";
     ASSERT_EQ(stream.str(), output);
@@ -42,7 +42,7 @@ TEST_F(PrinterTest, laneInProgress_ShouldPrintValidHeader) {
 TEST_F(PrinterTest, laneNoGame_ShouldPrintValidHeader) {
     lanes.push_back({"Lane 1", Status::NO_GAME, {}});
 
-    printer->print(lanes);
+    printer->printLanes(lanes);
 
     auto output = "### Lane 1: no game ###\n";
     ASSERT_EQ(stream.str(), output);
@@ -51,7 +51,7 @@ TEST_F(PrinterTest, laneNoGame_ShouldPrintValidHeader) {
 TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {
     lanes.push_back({"Lane 1", Status::FINISHED, {}});
 
-    printer->print(lanes);
+    printer->printLanes(lanes);
 
     auto output = "### Lane 1: game finished ###\n";
     ASSERT_EQ(stream.str(), output);
@@ -61,7 +61,7 @@ TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
     lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
     lanes[0].players_.push_back({"Name1", "", 30});
 
-    printer->print(lanes);
+    printer->printLanes(lanes);
 
     auto output =
         "### Lane 1: game in progress ###\n"
@@ -73,7 +73,7 @@ TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
     lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
     lanes[0].players_.push_back({"", "", 30});
 
-    printer->print(lanes);
+    printer->printLanes(lanes);
 
     auto output =
         "### Lane 1: game in progress ###\n"
@@ -86,7 +86,7 @@ TEST_F(PrinterTest, givenMultipleLanes_ShouldPrintValidHeaders) {
     lanes.push_back({"Lane 2", Status::IN_PROGRESS, {}});
     lanes.push_back({"Lane 3", Status::IN_PROGRESS, {}});
 
-    printer->print(lanes);
+    printer->printLanes(lanes);
 
     auto output =
         "### Lane 1: game in progress ###\n"
@@ -104,7 +104,7 @@ TEST_F(PrinterTest, givenMultipleLanesWithMultiplePlayers_ShouldPrintValidHeader
     lanes[1].players_.push_back({"Name2", "", 20});
     lanes[2].players_.push_back({"Name3", "", 30});
 
-    printer->print(lanes);
+    printer->printLanes(lanes);
 
     auto output =
         "### Lane 1: game in progress ###\n"

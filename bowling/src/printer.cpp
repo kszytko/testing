@@ -22,7 +22,11 @@ Printer::~Printer() {
     }
 }
 
-void Printer::print(const std::vector<Lane>& lanes) const {
+void Printer::print(ScoreCounter & score) const {
+    printLanes(score.getLanes());
+}
+
+void Printer::printLanes(const std::vector<Lane> & lanes) const {
     for (auto& lane : lanes) {
         printHeader(lane);
         printPlayers(lane);
