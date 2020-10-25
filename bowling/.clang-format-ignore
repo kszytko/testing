@@ -1,3 +1,0 @@
-# ignore third_party code from clang-format checks
-bowling/test/inputTestDirectory/*
-bowling/test/testScenariosInCatch2/*

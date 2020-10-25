@@ -27,7 +27,7 @@ jobs:
     - uses: DoozyX/clang-format-lint-action@v0.8
       with:
         source: 'bowling'
-        exclude: 'bowling/build bowling/.vscode bowling/test bowling/test/inputTestDirectory bowling/test/testScenariosInCatch2'
+        exclude: 'bowling/build bowling/.vscode bowling/test/inputTestDirectory bowling/test/testScenariosInCatch2'
         extensions: 'hpp,cpp'
         clangFormatVersion: 10
   
