@@ -3,22 +3,21 @@
 #include <string>
 #include <vector>
 
-class Lane {
-public:
-    Lane(const std::string& name) : name_(name) {}
+enum class Status { NO_GAME, IN_PROGRESS, FINISHED };
 
-    size_t getPlayersNum() const { return players_.size(); }
-    std::string getPlayer(size_t index) const {
-        if (index < players_.size()) {
-            return players_[index];
-        }
-        return "";
-    }
-    std::string getName() const { return name_; }
-
-    void addPlayer(const std::string& player) { players_.push_back(player); }
-
-public:
+struct Player{
     std::string name_;
-    std::vector<std::string> players_;
+    std::string game_;
+    size_t score_;
 };
+
+struct Lane{
+    void addPlayer(std::string & line);
+    void addPlayers(std::vector<std::string> lines);
+
+    std::string name_;
+    Status status_;
+    std::vector<Player> players_;
+};
+
+
