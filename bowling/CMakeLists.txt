@@ -68,6 +68,7 @@ set(TESTS
     ${TEST_DIR}/argumentParser-ut.cpp
     ${TEST_DIR}/parser-ut.cpp
     ${TEST_DIR}/printer-ut.cpp
+    ${TEST_DIR}/scoreCounter-ut.cpp
 )
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})
