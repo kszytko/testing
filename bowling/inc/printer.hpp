@@ -17,7 +17,7 @@ public:
     ~Printer();
 
     void print(ScoreCounter& score) const;
-    void printLanes(const std::vector<Lane> & lanes) const;
+    void printLanes(const std::vector<Lane>& lanes) const;
 
 private:
     void printHeader(const Lane& lane) const;
