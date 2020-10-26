@@ -1,5 +1,7 @@
 #include "printer.hpp"
 
+#include <stdexcept>
+
 Printer::Printer(const std::ostream& outStream) {
     stream_ = std::make_unique<std::ostream>(outStream.rdbuf());
 }
