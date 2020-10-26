@@ -4,7 +4,7 @@ void Game::roll(size_t pins) {
     rolls_[currentRoll++] = pins;
 }
 
-size_t Game::calculateScore(std::vector<size_t> & rolls){
+size_t Game::calculateScore(std::vector<size_t>& rolls) {
     std::copy(rolls.begin(), rolls.end(), rolls_.begin());
     size_t calculatedScore = score();
     reset();

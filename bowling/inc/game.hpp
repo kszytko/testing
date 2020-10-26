@@ -18,7 +18,7 @@ public:
     void reset();
 
 private:
-    std::array<size_t, MAX_ROLLS> rolls_;
+    std::array<size_t, MAX_ROLLS> rolls_{};
     size_t currentRoll{};
 
     bool isSpare(size_t firstFrameThrow);
