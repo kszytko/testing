@@ -6,16 +6,17 @@
 #include <vector>
 
 #include "lane.hpp"
+#include "reader.hpp"
 
 namespace fs = std::filesystem;
 
-class FilesReader {
+class FilesReader : public Reader {
 public:
     FilesReader(const std::string& directory);
 
     size_t getLanesNum() const { return lanes_.size(); }
     Lane* getLane(size_t index);
-    std::vector<Lane> getLanes() const { return lanes_; };
+    std::vector<Lane> getLanes() const override { return lanes_; };
 
 private:
     fs::path directoryPath_;
