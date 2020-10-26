@@ -9,4 +9,3 @@ std::string Tokenizer::readSequence(const std::string& line) {
     result.erase(std::remove(result.begin(), result.end(), FrameDelimiterSign), result.end());
     return result;
 }
-

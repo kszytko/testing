@@ -2,8 +2,8 @@
 #include <filesystem>
 #include <functional>
 
-#include "printer.hpp"
 #include "lane.hpp"
+#include "printer.hpp"
 
 struct PrinterTest : public ::testing::Test {
     void SetUp() override {

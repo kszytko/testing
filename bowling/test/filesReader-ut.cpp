@@ -34,14 +34,14 @@ TEST(FilesReaderTest, ShouldReadFiles) {
 
     // THEN
     auto lanes = filesReader.getLanes();
-    
+
     EXPECT_EQ(filesReader.getLanesNum(), 3);
 
     EXPECT_EQ(lanes[0].name_, "lane1");
     EXPECT_EQ(lanes[0].players_.size(), 3);
 
     EXPECT_EQ(lanes[0].players_[0].name_, "Name1");
-    EXPECT_EQ(lanes[0].players_[0].game_, "X|4-|3");  
+    EXPECT_EQ(lanes[0].players_[0].game_, "X|4-|3");
 
     EXPECT_EQ(lanes[0].players_[1].name_, "Name2");
     EXPECT_EQ(lanes[0].players_[1].game_, "34|X|0-");

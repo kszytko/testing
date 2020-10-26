@@ -34,6 +34,6 @@ int main(int argc, char* argv[]) {
     FilesReader reader(ap.getInputDirectory());
     ScoreCounter score(reader);
     Printer(ap.getOutputFileName()).print(score);
- 
+
     return 0;
 }
