@@ -16,9 +16,11 @@ void ScoreCounter::calculateLane(Lane& lane) {
         player.score_ = Game(rolls).getScore();
     }
 
-    if (allSequencesComplete) {
-        lane.status_ = Status::FINISHED;
-    } else if (lane.players_.size() > 0) {
-        lane.status_ = Status::IN_PROGRESS;
+    if (lane.players_.size() > 0) {
+        if (allSequencesComplete) {
+            lane.status_ = Status::FINISHED;
+        } else {
+            lane.status_ = Status::IN_PROGRESS;
+        }
     }
 }

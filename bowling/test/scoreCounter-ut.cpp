@@ -11,13 +11,16 @@ public:
 
 struct ScoreTest : public ::testing::Test {
     void SetUp() override {
-        Lane lane{"Lane 1", Status::IN_PROGRESS, {}};
-        lane.players_.push_back({"Name1", "", 0});
-        mockReader.lanes_.push_back(lane);
+        
     }
 
     void assertScore(const std::string& game, size_t score) {
-        mockReader.lanes_[0].players_[0].game_ = game;
+        Lane lane{"Lane 1"};
+        lane.players_.push_back({"Name1", game, 0});
+
+        MockReader mockReader;
+        mockReader.lanes_.push_back(lane);
+
         ScoreCounter counter(mockReader);
 
         auto newLanes = counter.getLanes();
@@ -26,7 +29,21 @@ struct ScoreTest : public ::testing::Test {
         ASSERT_EQ(calculatedScore, score);
     }
 
-    MockReader mockReader;
+    void assertStatus(const std::string& game, const Status & status){
+        Lane lane{"Lane 1"};
+        lane.players_.push_back({"Name1", game, 0});
+
+        MockReader mockReader;
+        mockReader.lanes_.push_back(lane);
+
+        ScoreCounter counter(mockReader);
+
+        auto newLanes = counter.getLanes();
+        auto laneStatus = newLanes[0].status_;
+
+        ASSERT_EQ(laneStatus, status);       
+    }
+
 };
 
 TEST_F(ScoreTest, GivenPerfectGame_ShouldCalculateMaxScore) {
@@ -86,4 +103,29 @@ TEST_F(ScoreTest, GivenNotFinished_ShouldCalculateValidScore) {
     assertScore(game1, 21);
     assertScore(game2, 17);
     assertScore(game3, 24);
+}
+
+TEST_F(ScoreTest, GivenNoGame_ShouldReturnNoGame) {
+    Lane lane{"Lane 1"};
+
+    MockReader mockReader;
+    mockReader.lanes_.push_back(lane);
+    ScoreCounter counter(mockReader);
+
+    auto newLanes = counter.getLanes();
+    auto laneStatus = newLanes[0].status_;
+
+    ASSERT_EQ(laneStatus, Status::NO_GAME);  
+}
+
+TEST_F(ScoreTest, GivenNoFinishedGame_ShouldReturnInProgress) {
+    auto game = "X|4-|3";
+
+    assertStatus(game, Status::IN_PROGRESS);
+}
+
+TEST_F(ScoreTest, GivenFinishedGame_ShouldReturnFinished) {
+    auto game = "5/|5/|5/|5/|5/|5/|5/|5/|5/|5/||5";
+
+    assertStatus(game, Status::FINISHED);
 }

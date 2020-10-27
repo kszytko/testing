@@ -14,6 +14,7 @@ struct Player {
 };
 
 struct Lane {
+    Lane(const std::string& name) : name_(name), status_(Status::NO_GAME) {};
     void addPlayer(const std::string& line);
 
     std::string name_;

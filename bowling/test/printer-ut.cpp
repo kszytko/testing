@@ -28,17 +28,10 @@ TEST_F(PrinterTest, GivenEmptyOutputFile_ShouldPrintData) {
     ASSERT_EQ(data, "");
 }
 
-TEST_F(PrinterTest, GivenEmptyStruct_ShouldPrintNoData) {
-    Lane lane;
-    mockScoreCounter.lanes_.push_back(lane);
-
-    printer->print(mockScoreCounter);
-
-    ASSERT_EQ(stream.str(), "### :  ###\n");
-}
-
 TEST_F(PrinterTest, laneInProgress_ShouldPrintValidHeader) {
-    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
+    Lane lane{"Lane 1"};
+    lane.status_ = Status::IN_PROGRESS;
+    mockScoreCounter.lanes_.push_back(lane);
 
     printer->print(mockScoreCounter);
 
@@ -47,7 +40,8 @@ TEST_F(PrinterTest, laneInProgress_ShouldPrintValidHeader) {
 }
 
 TEST_F(PrinterTest, laneNoGame_ShouldPrintValidHeader) {
-    mockScoreCounter.lanes_.push_back({"Lane 1", Status::NO_GAME, {}});
+    Lane lane{"Lane 1"};
+    mockScoreCounter.lanes_.push_back(lane);
 
     printer->print(mockScoreCounter);
 
@@ -55,8 +49,10 @@ TEST_F(PrinterTest, laneNoGame_ShouldPrintValidHeader) {
     ASSERT_EQ(stream.str(), output);
 }
 
-TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {
-    mockScoreCounter.lanes_.push_back({"Lane 1", Status::FINISHED, {}});
+TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {    
+    Lane lane{"Lane 1"};
+    lane.status_ = Status::FINISHED;
+    mockScoreCounter.lanes_.push_back(lane);
 
     printer->print(mockScoreCounter);
 
@@ -65,7 +61,9 @@ TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {
 }
 
 TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
-    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
+    Lane lane{"Lane 1"};
+    lane.status_ = Status::IN_PROGRESS;
+    mockScoreCounter.lanes_.push_back(lane);
     mockScoreCounter.lanes_[0].players_.push_back({"Name1", "", 30});
 
     printer->print(mockScoreCounter);
@@ -76,8 +74,10 @@ TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
     ASSERT_EQ(stream.str(), output);
 }
 
-TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
-    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
+TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {    
+    Lane lane{"Lane 1"};
+    lane.status_ = Status::IN_PROGRESS;
+    mockScoreCounter.lanes_.push_back(lane);
     mockScoreCounter.lanes_[0].players_.push_back({"", "", 30});
 
     printer->print(mockScoreCounter);
@@ -89,9 +89,15 @@ TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
 }
 
 TEST_F(PrinterTest, givenMultipleLanes_ShouldPrintValidHeaders) {
-    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
-    mockScoreCounter.lanes_.push_back({"Lane 2", Status::IN_PROGRESS, {}});
-    mockScoreCounter.lanes_.push_back({"Lane 3", Status::IN_PROGRESS, {}});
+    Lane lane1{"Lane 1"};
+    Lane lane2{"Lane 2"};
+    Lane lane3{"Lane 3"};
+    lane1.status_ = Status::IN_PROGRESS;
+    lane2.status_ = Status::IN_PROGRESS;
+    lane3.status_ = Status::IN_PROGRESS;
+    mockScoreCounter.lanes_.push_back(lane1);
+    mockScoreCounter.lanes_.push_back(lane2);
+    mockScoreCounter.lanes_.push_back(lane3);
 
     printer->print(mockScoreCounter);
 
@@ -103,9 +109,15 @@ TEST_F(PrinterTest, givenMultipleLanes_ShouldPrintValidHeaders) {
 }
 
 TEST_F(PrinterTest, givenMultipleLanesWithMultiplePlayers_ShouldPrintValidHeaders) {
-    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
-    mockScoreCounter.lanes_.push_back({"Lane 2", Status::IN_PROGRESS, {}});
-    mockScoreCounter.lanes_.push_back({"Lane 3", Status::IN_PROGRESS, {}});
+    Lane lane1{"Lane 1"};
+    Lane lane2{"Lane 2"};
+    Lane lane3{"Lane 3"};
+    lane1.status_ = Status::IN_PROGRESS;
+    lane2.status_ = Status::IN_PROGRESS;
+    lane3.status_ = Status::IN_PROGRESS;
+    mockScoreCounter.lanes_.push_back(lane1);
+    mockScoreCounter.lanes_.push_back(lane2);
+    mockScoreCounter.lanes_.push_back(lane3);
 
     mockScoreCounter.lanes_[0].players_.push_back({"Name1", "", 10});
     mockScoreCounter.lanes_[1].players_.push_back({"Name2", "", 20});
