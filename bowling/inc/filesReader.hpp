@@ -14,8 +14,6 @@ class FilesReader : public Reader {
 public:
     FilesReader(const std::string& directory);
 
-    size_t getLanesNum() const { return lanes_.size(); }
-    Lane* getLane(size_t index);
     std::vector<Lane> getLanes() const override { return lanes_; };
 
 private:
@@ -27,5 +25,5 @@ private:
     void makeFileList();
     void readFiles();
     std::vector<std::string> readLines(const fs::path& file);
-    bool isLineValid(std::string line);
+    bool isLineValid(const std::string& line);
 };

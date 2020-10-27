@@ -13,7 +13,8 @@ struct Player {
     size_t score_;
 };
 
-struct Lane {
+class Lane {
+public:
     void addPlayer(std::string& line);
     void addPlayers(std::vector<std::string> lines);
 

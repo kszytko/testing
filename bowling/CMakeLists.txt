@@ -69,6 +69,8 @@ set(TESTS
     ${TEST_DIR}/parser-ut.cpp
     ${TEST_DIR}/printer-ut.cpp
     ${TEST_DIR}/scoreCounter-ut.cpp
+    ${TEST_DIR}/tokenizer-ut.cpp
+
 )
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})

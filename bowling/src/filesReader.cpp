@@ -30,13 +30,6 @@ void FilesReader::makeFileList() {
     std::sort(files_.begin(), files_.end());
 }
 
-Lane* FilesReader::getLane(size_t index) {
-    if (index < lanes_.size()) {
-        return &lanes_[index];
-    }
-    return nullptr;
-}
-
 void FilesReader::readFiles() {
     for (const auto& file : files_) {
         auto fileName = file.stem().string();
@@ -61,6 +54,6 @@ std::vector<std::string> FilesReader::readLines(const fs::path& file) {
     return lanes;
 }
 
-bool FilesReader::isLineValid(std::string line) {
+bool FilesReader::isLineValid(const std::string& line) {
     return line.find(NAME_DELIMITER_SIGN) != std::string::npos;
 }
