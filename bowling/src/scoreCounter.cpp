@@ -7,7 +7,7 @@ ScoreCounter::ScoreCounter(const ILane& reader) : lanes_(reader.getLanes()) {
     }
 }
 
-void ScoreCounter::calculateLane(Lane& lane) {
+void ScoreCounter::calculateLane(Lane& lane) const {
     bool allSequencesComplete = true;
 
     for (auto& player : lane.players_) {
