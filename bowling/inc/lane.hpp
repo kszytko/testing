@@ -3,22 +3,27 @@
 #include <string>
 #include <vector>
 
-class Lane {
-public:
-    Lane(const std::string& name) : name_(name) {}
+constexpr char NAME_DELIMITER_SIGN = ':';
 
-    size_t getPlayersNum() const { return players_.size(); }
-    std::string getPlayer(size_t index) const {
-        if (index < players_.size()) {
-            return players_[index];
-        }
-        return "";
-    }
-    std::string getName() const { return name_; }
+enum class Status { NO_GAME, IN_PROGRESS, FINISHED };
 
-    void addPlayer(const std::string& player) { players_.push_back(player); }
-
-private:
+struct Player {
     std::string name_;
-    std::vector<std::string> players_;
+    std::string game_;
+    size_t score_;
+};
+
+struct Lane {
+    Lane(const std::string& name) : name_(name), status_(Status::NO_GAME){};
+    void addPlayer(const std::string& line);
+
+    std::string name_;
+    Status status_;
+    std::vector<Player> players_;
+};
+
+class ILane {
+public:
+    virtual ~ILane(){};
+    virtual std::vector<Lane> getLanes() const = 0;
 };

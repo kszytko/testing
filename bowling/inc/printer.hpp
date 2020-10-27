@@ -1,6 +1,7 @@
 #pragma once
 
-#include "printableData.hpp"
+#include "lane.hpp"
+#include "scoreCounter.hpp"
 
 #include <fstream>
 #include <iostream>
@@ -15,15 +16,15 @@ public:
     explicit Printer(const std::string& filename = "");
     ~Printer();
 
-    void print(std::vector<LaneStruct>& lanes) const;
+    void print(const ILane& score) const;
 
 private:
-    void printHeader(LaneStruct& lane) const;
+    void printLanes(const std::vector<Lane>& lanes) const;
+    void printHeader(const Lane& lane) const;
     std::string parseStatus(const Status& status) const;
-    void printPlayers(LaneStruct& lane) const;
-    void printPlayer(Player& player) const;
+    void printPlayers(const Lane& lane) const;
+    void printPlayer(const Player& player) const;
 
-private:
     std::unique_ptr<std::ostream> stream_;
     std::unique_ptr<std::fstream> file_;
 };

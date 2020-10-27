@@ -58,6 +58,8 @@ set(SOURCES
     ${SOURCE_DIR}/frameParser.cpp
     ${SOURCE_DIR}/tokenizer.cpp
     ${SOURCE_DIR}/printer.cpp
+    ${SOURCE_DIR}/lane.cpp
+    ${SOURCE_DIR}/scoreCounter.cpp
 )
 
 set(TESTS
@@ -66,6 +68,9 @@ set(TESTS
     ${TEST_DIR}/argumentParser-ut.cpp
     ${TEST_DIR}/parser-ut.cpp
     ${TEST_DIR}/printer-ut.cpp
+    ${TEST_DIR}/scoreCounter-ut.cpp
+    ${TEST_DIR}/tokenizer-ut.cpp
+
 )
 
 add_library(${PROJECT_NAME}-lib STATIC ${SOURCES})

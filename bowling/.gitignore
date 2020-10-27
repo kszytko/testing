@@ -56,3 +56,5 @@ googletest/
 *.exe
 *.out
 *.app
+
+temp/

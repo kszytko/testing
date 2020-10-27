@@ -8,8 +8,8 @@
 #include "filesReader.hpp"
 #include "frameParser.hpp"
 #include "game.hpp"
-#include "printableData.hpp"
 #include "printer.hpp"
+#include "scoreCounter.hpp"
 
 void showHelp(std::string appName) {
     std::cout << "Bowling game application reads text files from given directory, "
@@ -31,37 +31,9 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    auto inputDirectory = ap.getInputDirectory();
-    auto outputFileName = ap.getOutputFileName();
-
-    std::vector<LaneStruct> lanes;
-
-    FilesReader reader(inputDirectory);
-    Game game;
-    for (size_t i = 0; i < reader.getLanesNum(); i++) {
-        auto lane = reader.getLane(i);
-        LaneStruct printableLane(lane->getName(), Status::NO_GAME);
-        bool allSequencesComplete = true;
-        for (size_t j = 0; j < lane->getPlayersNum(); j++) {
-            allSequencesComplete &= FrameParser::isSequenceComplete(lane->getPlayer(j));
-            auto parsed = FrameParser::parse(lane->getPlayer(j));
-            for (const auto& el : parsed.second) {
-                game.roll(el);
-            }
-            printableLane.players_.emplace_back(parsed.first, game.score());
-            game.reset();
-        }
-        if (lane->getPlayersNum() == 0) {
-            printableLane.status_ = Status::NO_GAME;
-        } else if (allSequencesComplete) {
-            printableLane.status_ = Status::FINISHED;
-        } else {
-            printableLane.status_ = Status::IN_PROGRESS;
-        }
-        lanes.push_back(printableLane);
-    }
-
-    Printer(outputFileName).print(lanes);
+    FilesReader reader(ap.getInputDirectory());
+    ScoreCounter score(reader);
+    Printer(ap.getOutputFileName()).print(score);
 
     return 0;
 }

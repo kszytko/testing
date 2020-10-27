@@ -29,7 +29,6 @@ parsedFrame FrameParser::parse(const std::string& line) {
     std::vector<size_t> parsed{};
     size_t lastRollValue{};
 
-    auto name = Tokenizer::readName(line);
     auto sequence = Tokenizer::readSequence(line);
 
     std::for_each(sequence.cbegin(), sequence.cend(), [&lastRollValue, &parsed](const auto& el) {
@@ -37,7 +36,7 @@ parsedFrame FrameParser::parse(const std::string& line) {
         parsed.push_back(lastRollValue);
     });
 
-    return std::pair(name, parsed);
+    return parsed;
 }
 
 bool FrameParser::isSequenceComplete(const std::string& line) {

@@ -1,12 +1,13 @@
 #include "game.hpp"
 
-void Game::roll(size_t pins) {
-    rolls[currentRoll++] = pins;
+Game::Game(const std::vector<size_t>& rolls) {
+    std::copy(rolls.begin(), rolls.end(), rolls_.begin());
+    calculateScore();
 }
 
-size_t Game::score() {
-    size_t score_{};
+void Game::calculateScore() {
     size_t firstFrameThrow{};
+
     for (size_t frame = 0; frame < MAX_FRAMES; ++frame) {
         if (isStrike(firstFrameThrow)) {
             score_ += MAX_FRAME_SCORE + nextTwoBallsForStrike(firstFrameThrow);
@@ -19,30 +20,24 @@ size_t Game::score() {
             firstFrameThrow += 2;
         }
     }
-    return score_;
-}
-
-void Game::reset() {
-    rolls.fill(0);
-    currentRoll = 0;
 }
 
 bool Game::isSpare(size_t firstFrameThrow) {
-    return rolls[firstFrameThrow] + rolls[++firstFrameThrow] == MAX_PINS;
+    return rolls_[firstFrameThrow] + rolls_[++firstFrameThrow] == MAX_PINS;
 }
 
 bool Game::isStrike(size_t firstFrameThrow) {
-    return rolls[firstFrameThrow] == MAX_PINS;
+    return rolls_[firstFrameThrow] == MAX_PINS;
 }
 
 size_t Game::nextTwoBallsForStrike(size_t firstFrameThrow) {
-    return rolls[++firstFrameThrow] + rolls[++firstFrameThrow];
+    return rolls_[++firstFrameThrow] + rolls_[++firstFrameThrow];
 }
 
 size_t Game::nextBallForSpare(size_t firstFrameThrow) {
-    return rolls[firstFrameThrow + 2];
+    return rolls_[firstFrameThrow + 2];
 }
 
 size_t Game::twoBallsInFrame(size_t firstFrameThrow) {
-    return rolls[firstFrameThrow] + rolls[++firstFrameThrow];
+    return rolls_[firstFrameThrow] + rolls_[++firstFrameThrow];
 }
