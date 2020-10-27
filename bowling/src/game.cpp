@@ -1,10 +1,10 @@
 #include "game.hpp"
 
 void Game::roll(size_t pins) {
-    rolls_[currentRoll++] = pins;
+    rolls_[currentRoll_++] = pins;
 }
 
-size_t Game::calculateScore(std::vector<size_t>& rolls) {
+size_t Game::calculateScore(const std::vector<size_t>& rolls) {
     std::copy(rolls.begin(), rolls.end(), rolls_.begin());
     size_t calculatedScore = score();
     reset();
@@ -32,7 +32,7 @@ size_t Game::score() {
 
 void Game::reset() {
     rolls_.fill(0);
-    currentRoll = 0;
+    currentRoll_ = 0;
 }
 
 bool Game::isSpare(size_t firstFrameThrow) {
