@@ -49,7 +49,7 @@ TEST_F(PrinterTest, laneNoGame_ShouldPrintValidHeader) {
     ASSERT_EQ(stream.str(), output);
 }
 
-TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {    
+TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {
     Lane lane{"Lane 1"};
     lane.status_ = Status::FINISHED;
     mockScoreCounter.lanes_.push_back(lane);
@@ -74,7 +74,7 @@ TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
     ASSERT_EQ(stream.str(), output);
 }
 
-TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {    
+TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
     Lane lane{"Lane 1"};
     lane.status_ = Status::IN_PROGRESS;
     mockScoreCounter.lanes_.push_back(lane);

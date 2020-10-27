@@ -10,9 +10,7 @@ public:
 };
 
 struct ScoreTest : public ::testing::Test {
-    void SetUp() override {
-        
-    }
+    void SetUp() override {}
 
     void assertScore(const std::string& game, size_t score) {
         Lane lane{"Lane 1"};
@@ -29,7 +27,7 @@ struct ScoreTest : public ::testing::Test {
         ASSERT_EQ(calculatedScore, score);
     }
 
-    void assertStatus(const std::string& game, const Status & status){
+    void assertStatus(const std::string& game, const Status& status) {
         Lane lane{"Lane 1"};
         lane.players_.push_back({"Name1", game, 0});
 
@@ -41,9 +39,8 @@ struct ScoreTest : public ::testing::Test {
         auto newLanes = counter.getLanes();
         auto laneStatus = newLanes[0].status_;
 
-        ASSERT_EQ(laneStatus, status);       
+        ASSERT_EQ(laneStatus, status);
     }
-
 };
 
 TEST_F(ScoreTest, GivenPerfectGame_ShouldCalculateMaxScore) {
@@ -115,7 +112,7 @@ TEST_F(ScoreTest, GivenNoGame_ShouldReturnNoGame) {
     auto newLanes = counter.getLanes();
     auto laneStatus = newLanes[0].status_;
 
-    ASSERT_EQ(laneStatus, Status::NO_GAME);  
+    ASSERT_EQ(laneStatus, Status::NO_GAME);
 }
 
 TEST_F(ScoreTest, GivenNoFinishedGame_ShouldReturnInProgress) {

@@ -34,13 +34,13 @@ void FilesReader::populateLanesFromFiles() {
     for (const auto& file : files_) {
         auto fileName = file.stem().string();
         Lane lane{fileName};
-    
-        for(const auto & line : readFile(file))  {
+
+        for (const auto& line : readFile(file)) {
             if (isValidPlayer(line)) {
-                lane.addPlayer(line);        
+                lane.addPlayer(line);
             }
-        } 
-        
+        }
+
         lanes_.push_back(lane);
     }
 }
