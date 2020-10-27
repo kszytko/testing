@@ -13,7 +13,7 @@ void ScoreCounter::calculateLane(Lane& lane) {
     for (auto& player : lane.players_) {
         allSequencesComplete &= FrameParser::isSequenceComplete(player.game_);
         auto rolls = FrameParser::parse(player.game_);
-        player.score_ = game.calculateScore(rolls);
+        player.score_ = Game(rolls).getScore();
     }
 
     if (allSequencesComplete) {

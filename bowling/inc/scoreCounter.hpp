@@ -12,5 +12,4 @@ private:
     void calculateLane(Lane& lane);
 
     std::vector<Lane> lanes_;
-    Game game;
 };

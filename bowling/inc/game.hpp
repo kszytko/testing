@@ -11,15 +11,14 @@ constexpr size_t MAX_FRAME_SCORE{MAX_PINS};
 
 class Game {
 public:
-    size_t calculateScore(const std::vector<size_t>& rolls);
-    size_t score();
-
-    void roll(size_t pins);
-    void reset();
+    Game(const std::vector<size_t>& rolls);
+    size_t getScore() const { return score_; };
 
 private:
     std::array<size_t, MAX_ROLLS> rolls_{};
-    size_t currentRoll_{};
+    size_t score_{};
+
+    size_t calculateScore();
 
     bool isSpare(size_t firstFrameThrow);
     bool isStrike(size_t firstFrameThrow);
