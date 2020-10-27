@@ -7,7 +7,7 @@
 FilesReader::FilesReader(const std::string& directory) : directoryPath_(fs::path(directory)) {
     checkDirectory();
     makeFileList();
-    readFiles();
+    populateLanesFromFiles();
 };
 
 void FilesReader::checkDirectory() const {
@@ -30,30 +30,33 @@ void FilesReader::makeFileList() {
     std::sort(files_.begin(), files_.end());
 }
 
-void FilesReader::readFiles() {
+void FilesReader::populateLanesFromFiles() {
     for (const auto& file : files_) {
         auto fileName = file.stem().string();
         Lane lane{fileName};
-
-        lane.addPlayers(readLines(file));
+    
+        for(auto & line : readFile(file))  {
+            if (isValidPlayer(line)) {
+                lane.addPlayer(line);        
+            }
+        } 
+        
         lanes_.push_back(lane);
     }
 }
 
-std::vector<std::string> FilesReader::readLines(const fs::path& file) {
+std::vector<std::string> FilesReader::readFile(const fs::path& file) {
     std::ifstream infile(file);
     std::string line;
     std::vector<std::string> lanes;
 
     while (std::getline(infile, line)) {
-        if (isLineValid(line)) {
-            lanes.push_back(line);
-        }
+        lanes.push_back(line);
     }
 
     return lanes;
 }
 
-bool FilesReader::isLineValid(const std::string& line) {
+bool FilesReader::isValidPlayer(const std::string& line) {
     return line.find(NAME_DELIMITER_SIGN) != std::string::npos;
 }

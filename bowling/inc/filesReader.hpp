@@ -23,7 +23,8 @@ private:
 
     void checkDirectory() const;
     void makeFileList();
-    void readFiles();
-    std::vector<std::string> readLines(const fs::path& file);
-    bool isLineValid(const std::string& line);
+    void populateLanesFromFiles();
+
+    std::vector<std::string> readFile(const fs::path& file);
+    bool isValidPlayer(const std::string& line);
 };
