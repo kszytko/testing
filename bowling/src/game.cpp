@@ -5,7 +5,7 @@ Game::Game(const std::vector<size_t>& rolls) {
     calculateScore();
 }
 
-size_t Game::calculateScore() {
+void Game::calculateScore() {
     size_t firstFrameThrow{};
 
     for (size_t frame = 0; frame < MAX_FRAMES; ++frame) {
@@ -20,7 +20,6 @@ size_t Game::calculateScore() {
             firstFrameThrow += 2;
         }
     }
-    return score_;
 }
 
 bool Game::isSpare(size_t firstFrameThrow) {

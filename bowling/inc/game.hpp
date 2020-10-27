@@ -18,7 +18,7 @@ private:
     std::array<size_t, MAX_ROLLS> rolls_{};
     size_t score_{};
 
-    size_t calculateScore();
+    void calculateScore();
 
     bool isSpare(size_t firstFrameThrow);
     bool isStrike(size_t firstFrameThrow);

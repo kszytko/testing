@@ -35,7 +35,7 @@ void FilesReader::populateLanesFromFiles() {
         auto fileName = file.stem().string();
         Lane lane{fileName};
     
-        for(auto & line : readFile(file))  {
+        for(const auto & line : readFile(file))  {
             if (isValidPlayer(line)) {
                 lane.addPlayer(line);        
             }
