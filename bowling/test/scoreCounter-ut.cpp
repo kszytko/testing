@@ -1,10 +1,9 @@
 #include <gtest/gtest.h>
 
 #include "lane.hpp"
-#include "reader.hpp"
 #include "scoreCounter.hpp"
 
-class MockReader : public Reader {
+class MockReader : public ILane {
 public:
     std::vector<Lane> getLanes() const override { return lanes_; };
     std::vector<Lane> lanes_;

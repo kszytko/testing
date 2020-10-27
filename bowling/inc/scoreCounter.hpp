@@ -2,11 +2,10 @@
 
 #include "game.hpp"
 #include "lane.hpp"
-#include "reader.hpp"
 
-class ScoreCounter {
+class ScoreCounter : public ILane{
 public:
-    ScoreCounter(Reader& reader);
+    ScoreCounter(const ILane& reader);
     std::vector<Lane> getLanes() const { return lanes_; };
 
 private:

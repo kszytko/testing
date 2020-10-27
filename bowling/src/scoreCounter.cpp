@@ -1,7 +1,7 @@
 #include "scoreCounter.hpp"
 #include "frameParser.hpp"
 
-ScoreCounter::ScoreCounter(Reader& reader) : lanes_(reader.getLanes()) {
+ScoreCounter::ScoreCounter(const ILane& reader) : lanes_(reader.getLanes()) {
     for (auto& lane : lanes_) {
         calculateLane(lane);
     }

@@ -6,11 +6,10 @@
 #include <vector>
 
 #include "lane.hpp"
-#include "reader.hpp"
 
 namespace fs = std::filesystem;
 
-class FilesReader : public Reader {
+class FilesReader : public ILane {
 public:
     FilesReader(const std::string& directory);
 

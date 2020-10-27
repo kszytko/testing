@@ -20,3 +20,9 @@ struct Lane {
     Status status_;
     std::vector<Player> players_;
 };
+
+class ILane {
+public:
+    virtual ~ILane(){};
+    virtual std::vector<Lane> getLanes() const = 0;
+};

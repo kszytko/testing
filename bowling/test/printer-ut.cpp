@@ -5,6 +5,12 @@
 #include "lane.hpp"
 #include "printer.hpp"
 
+class MockScoreCounter : public ILane {
+public:
+    std::vector<Lane> getLanes() const override { return lanes_; };
+    std::vector<Lane> lanes_;
+};
+
 struct PrinterTest : public ::testing::Test {
     void SetUp() override {
         stream.clear();
@@ -13,7 +19,8 @@ struct PrinterTest : public ::testing::Test {
 
     std::stringstream stream;
     std::shared_ptr<Printer> printer;
-    std::vector<Lane> lanes;
+
+    MockScoreCounter mockScoreCounter;
 };
 
 TEST_F(PrinterTest, GivenEmptyOutputFile_ShouldPrintData) {
@@ -23,45 +30,45 @@ TEST_F(PrinterTest, GivenEmptyOutputFile_ShouldPrintData) {
 
 TEST_F(PrinterTest, GivenEmptyStruct_ShouldPrintNoData) {
     Lane lane;
-    lanes.push_back(lane);
+    mockScoreCounter.lanes_.push_back(lane);
 
-    printer->printLanes(lanes);
+    printer->print(mockScoreCounter);
 
     ASSERT_EQ(stream.str(), "### :  ###\n");
 }
 
 TEST_F(PrinterTest, laneInProgress_ShouldPrintValidHeader) {
-    lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
+    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
 
-    printer->printLanes(lanes);
+    printer->print(mockScoreCounter);
 
     auto output = "### Lane 1: game in progress ###\n";
     ASSERT_EQ(stream.str(), output);
 }
 
 TEST_F(PrinterTest, laneNoGame_ShouldPrintValidHeader) {
-    lanes.push_back({"Lane 1", Status::NO_GAME, {}});
+    mockScoreCounter.lanes_.push_back({"Lane 1", Status::NO_GAME, {}});
 
-    printer->printLanes(lanes);
+    printer->print(mockScoreCounter);
 
     auto output = "### Lane 1: no game ###\n";
     ASSERT_EQ(stream.str(), output);
 }
 
 TEST_F(PrinterTest, laneFinished_ShouldPrintValidHeader) {
-    lanes.push_back({"Lane 1", Status::FINISHED, {}});
+    mockScoreCounter.lanes_.push_back({"Lane 1", Status::FINISHED, {}});
 
-    printer->printLanes(lanes);
+    printer->print(mockScoreCounter);
 
     auto output = "### Lane 1: game finished ###\n";
     ASSERT_EQ(stream.str(), output);
 }
 
 TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
-    lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
-    lanes[0].players_.push_back({"Name1", "", 30});
+    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
+    mockScoreCounter.lanes_[0].players_.push_back({"Name1", "", 30});
 
-    printer->printLanes(lanes);
+    printer->print(mockScoreCounter);
 
     auto output =
         "### Lane 1: game in progress ###\n"
@@ -70,10 +77,10 @@ TEST_F(PrinterTest, givenOnePLayer_ShouldPrintValidData) {
 }
 
 TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
-    lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
-    lanes[0].players_.push_back({"", "", 30});
+    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
+    mockScoreCounter.lanes_[0].players_.push_back({"", "", 30});
 
-    printer->printLanes(lanes);
+    printer->print(mockScoreCounter);
 
     auto output =
         "### Lane 1: game in progress ###\n"
@@ -82,11 +89,11 @@ TEST_F(PrinterTest, givenPlayerWithoutName_ShouldPrintOnlyScore) {
 }
 
 TEST_F(PrinterTest, givenMultipleLanes_ShouldPrintValidHeaders) {
-    lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
-    lanes.push_back({"Lane 2", Status::IN_PROGRESS, {}});
-    lanes.push_back({"Lane 3", Status::IN_PROGRESS, {}});
+    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
+    mockScoreCounter.lanes_.push_back({"Lane 2", Status::IN_PROGRESS, {}});
+    mockScoreCounter.lanes_.push_back({"Lane 3", Status::IN_PROGRESS, {}});
 
-    printer->printLanes(lanes);
+    printer->print(mockScoreCounter);
 
     auto output =
         "### Lane 1: game in progress ###\n"
@@ -96,15 +103,15 @@ TEST_F(PrinterTest, givenMultipleLanes_ShouldPrintValidHeaders) {
 }
 
 TEST_F(PrinterTest, givenMultipleLanesWithMultiplePlayers_ShouldPrintValidHeaders) {
-    lanes.push_back({"Lane 1", Status::IN_PROGRESS, {}});
-    lanes.push_back({"Lane 2", Status::IN_PROGRESS, {}});
-    lanes.push_back({"Lane 3", Status::IN_PROGRESS, {}});
+    mockScoreCounter.lanes_.push_back({"Lane 1", Status::IN_PROGRESS, {}});
+    mockScoreCounter.lanes_.push_back({"Lane 2", Status::IN_PROGRESS, {}});
+    mockScoreCounter.lanes_.push_back({"Lane 3", Status::IN_PROGRESS, {}});
 
-    lanes[0].players_.push_back({"Name1", "", 10});
-    lanes[1].players_.push_back({"Name2", "", 20});
-    lanes[2].players_.push_back({"Name3", "", 30});
+    mockScoreCounter.lanes_[0].players_.push_back({"Name1", "", 10});
+    mockScoreCounter.lanes_[1].players_.push_back({"Name2", "", 20});
+    mockScoreCounter.lanes_[2].players_.push_back({"Name3", "", 30});
 
-    printer->printLanes(lanes);
+    printer->print(mockScoreCounter);
 
     auto output =
         "### Lane 1: game in progress ###\n"

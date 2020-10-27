@@ -24,7 +24,7 @@ Printer::~Printer() {
     }
 }
 
-void Printer::print(ScoreCounter& score) const {
+void Printer::print(const ILane& score) const {
     printLanes(score.getLanes());
 }
 
